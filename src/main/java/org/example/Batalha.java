@@ -129,6 +129,7 @@ public class Batalha extends JPanel {
 
             timer = new Timer(2000, (_) -> {
                 vidaMinha = vidaMinha - danoDele;
+
                 arrumar();
                 textArea.setText(nome + " atacou, seu turno");
                 button.setEnabled(true);
