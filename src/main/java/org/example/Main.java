@@ -21,16 +21,16 @@ public class Main extends JPanel {
 
     Personagem gato = new Personagem(new ImageIcon(getClass().getResource("/gato.png")), vida, dano, "gato");
 
-    Personagem mini = new Personagem(new ImageIcon(getClass().getResource("/miniCachorro.png")), 10, 10, "mini");
-    Personagem cachorro = new Personagem(new ImageIcon(getClass().getResource("/cachorro.png")), 20, 25, "cachorro");
-    Personagem rei = new Personagem(new ImageIcon(getClass().getResource("/reiCachorro.png")), 50, 55, "rei");
+    Personagem mini = new Personagem(new ImageIcon(getClass().getResource("/miniCachorro.png")), 10, 10, "Mini");
+    Personagem cachorro = new Personagem(new ImageIcon(getClass().getResource("/cachorro.png")), 20, 25, "Cachorro");
+    Personagem rei = new Personagem(new ImageIcon(getClass().getResource("/reiCachorro.png")), 50, 55, "Rei");
 
     Map<Integer, Mensagem> mensagemMap = Map.ofEntries(
             Map.entry(0, new Mensagem("Você morreu", "", "", gato.icon)),
             Map.entry(1, new Mensagem("Você é um gato, foi à floresta e agora precisa passar por um rio, o que você faz?", "Tenta pular o rio", "Tenta nadar", new ImageIcon(getClass().getResource("/fundo1.png")))),
             Map.entry(2, new Mensagem("Você caiu e a correnteza te levou ate o reino dos cães", "Tentar enfrentar um", "Se esconder", imagem)),
-            Map.entry(3, new Mensagem("Estas escondido, e agora?", "Ir lentamente ao castelo", "Tentar voltar para casa", imagem)),
-            Map.entry(4, new Mensagem("Achastes uma poção suspeita", "Tomar", "Não tomar", imagem)),
+            Map.entry(3, new Mensagem("Estás escondido, e agora?", "Ir lentamente ao castelo", "Tentar voltar para casa", imagem)),
+            Map.entry(4, new Mensagem("Achaste uma poção suspeita", "Tomar", "Não tomar", imagem)),
             Map.entry(5, new Mensagem("E agora?", "Enfrentar", "Entrar no castelo", imagem)),
             Map.entry(6, new Mensagem("Você entrou", "Desafiar o boss", "Sair do castelo", new ImageIcon(getClass().getResource("/fundo3.png")))),
             Map.entry(7, new Mensagem("Contra quem?", "Cachorro", "Mini cachorro", imagem)),
@@ -68,6 +68,9 @@ public class Main extends JPanel {
 
         button1.addActionListener(_ -> escolha1());
         button2.addActionListener(_ -> escolha2());
+        if (gato.kills >= gato.level) {
+            clean();
+        }
     }
 
     public void setScene(int id) {
@@ -83,12 +86,12 @@ public class Main extends JPanel {
     void escolha1() {
         switch (cenaAtual) {
             case 1 -> cenaAtual = 2;
-            case 2 -> frame.toBatalha(new Batalha(frame, gato, cachorro, 4));
+            case 2 -> frame.toBatalha(new Batalha(frame, this, gato, cachorro, 4, 2));
             case 3 -> cenaAtual = 4;
             case 4 -> randomPocao();
             case 5 -> cenaAtual = 7;
-            case 6 -> frame.toBatalha(new Batalha(frame, gato, rei, 8 ));
-            case 7 -> frame.toBatalha(new Batalha(frame, gato, cachorro, 5 ));
+            case 6 -> frame.toBatalha(new Batalha(frame, this, gato, rei, 8, 6 ));
+            case 7 -> frame.toBatalha(new Batalha(frame, this, gato, cachorro, 5, 5 ));
         }
         setScene(cenaAtual);
         clean();
@@ -112,25 +115,26 @@ public class Main extends JPanel {
             case 2 -> cenaAtual = 3;
             case 3 -> {
                 JOptionPane.showMessageDialog(this, "Você foi pego");
-                frame.toBatalha(new Batalha(frame, gato, cachorro, 4));
+                frame.toBatalha(new Batalha(frame, this, gato, cachorro, 4, 3));
             }
             case 4, 6 -> cenaAtual = 5;
             case 5 -> cenaAtual = 6;
-            case 7 -> frame.toBatalha(new Batalha(frame, gato, mini, 6));
+            case 7 -> frame.toBatalha(new Batalha(frame, this, gato, mini, 5, 5));
         }
         setScene(cenaAtual);
         clean();
     }
 
     public void clean() {
-        vida = gato.vida;
-        dano = gato.dano;
         if (gato.kills >= gato.level) {
+            JOptionPane.showMessageDialog(this, "Upaste de level");
             gato.kills = 0;
             gato.level++;
-            vida = vida + 10;
-            dano = dano + 10;
+            gato.vida = vida + 10;
+            gato.dano = dano + 10;
         }
+        vida = gato.vida;
+        dano = gato.dano;
         atribuitos.setText("Vida: " + vida + " | Dano: " + dano + " | LEVEL: " + gato.level);
     }
 }

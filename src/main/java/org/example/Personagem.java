@@ -8,8 +8,8 @@ public class Personagem {
     int dano;
     ImageIcon icon;
 
-    int level;
-    int kills;
+    double level;
+    double kills;
 
     public Personagem(ImageIcon icon, int dano, int vida, String nome) {
         this.icon = icon;

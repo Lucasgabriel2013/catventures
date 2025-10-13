@@ -5,7 +5,9 @@ import java.awt.*;
 
 public class Batalha extends JPanel {
     Frame frame;
+    Main main;
     JButton button = new JButton("Atacar");
+    JButton button2 = new JButton("Fugir");
     JTextArea cat = new JTextArea();
     JTextArea enemy = new JTextArea();
     JTextArea textArea = new JTextArea("Seu turno");
@@ -13,12 +15,16 @@ public class Batalha extends JPanel {
     JLabel iconLabel2 = new JLabel();
     JPanel panel = new JPanel();
     JPanel panel2 = new JPanel();
+    JPanel panel3 = new JPanel();
+    JPanel panel4 = new JPanel(new BorderLayout());
 
+    Timer timer;
     int danoDele;
     int vidaDele;
     int danoMeu;
     int vidaMinha;
     int scene;
+    int fugir;
     String nome;
 
     Personagem gato;
@@ -28,18 +34,25 @@ public class Batalha extends JPanel {
         this.frame = frame;
     }
 
-    Batalha(Frame frame, Personagem jogador, Personagem inimigo, int victoryScene) {
+    Batalha(Frame frame, Main main, Personagem jogador, Personagem inimigo, int victoryScene, int fugirScene) {
         this.frame = frame;
+        this.main = main;
+
         scene = victoryScene;
+        fugir = fugirScene;
 
         gato = jogador;
         feio = inimigo;
 
         setLayout(new BorderLayout());
+        add(panel4, BorderLayout.CENTER);
 
         textArea.setFont(new Font("Arial", Font.BOLD, 30));
         cat.setFont(new Font("Arial", Font.BOLD, 20));
         enemy.setFont(new Font("Arial", Font.BOLD, 20));
+
+        button.setFont(new Font("Arial", Font.BOLD, 40));
+        button2.setFont(new Font("Arial", Font.BOLD, 40));
 
         add(panel, BorderLayout.WEST);
         ImageIcon iconCatFinal = new ImageIcon(jogador.icon.getImage().getScaledInstance(130, 100, Image.SCALE_SMOOTH));
@@ -59,11 +72,8 @@ public class Batalha extends JPanel {
 
         panel.setLayout(new GridLayout(3, 1));
         setSize(800, 500);
-        JMenuBar menubar = new JMenuBar();
-        menubar.add(button);
-        add(menubar, BorderLayout.NORTH);
 
-        add(textArea, BorderLayout.CENTER);
+        panel4.add(textArea, BorderLayout.CENTER);
         textArea.setLineWrap(true);
         textArea.setEditable(false);
 
@@ -82,7 +92,13 @@ public class Batalha extends JPanel {
         panel.add(cat);
         panel.add(iconLabel);
 
+        panel4.add(panel3, BorderLayout.SOUTH);
+        panel3.setLayout(new GridLayout(1, 2));
+        panel3.add(button);
+        panel3.add(button2);
+
         button.addActionListener(_ -> atacar());
+        button2.addActionListener(_ -> fugir());
     }
 
     public void arrumar() {
@@ -102,32 +118,66 @@ public class Batalha extends JPanel {
     void atacar() {
         vidaDele = vidaDele - danoMeu;
         arrumar();
-        verificar();
-        textArea.setText("""
-                Você atacou, turno do %s
-                Esperando...""".formatted(nome));
-        button.setEnabled(false);
+        if (verificar()) {
+        } else {
 
-        var timer = new Timer(2000, (_) -> {
-            vidaMinha = vidaMinha - danoDele;
-            arrumar();
-            textArea.setText(nome + " atacou, seu turno");
-            button.setEnabled(true);
-            verificar();
-        });
-        timer.setRepeats(false);
-        timer.start();
+            textArea.setText("""
+                    Você atacou, turno do %s
+                    Esperando...""".formatted(nome));
+            button.setEnabled(false);
+            button2.setEnabled(false);
+
+            timer = new Timer(2000, (_) -> {
+                vidaMinha = vidaMinha - danoDele;
+                arrumar();
+                textArea.setText(nome + " atacou, seu turno");
+                button.setEnabled(true);
+                button2.setEnabled(true);
+                verificar();
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
     }
 
+    void fugir() {
+        int random = (int) (Math.random() * 10);
+        if (random > 5) {
+            frame.toMain(fugir);
+        } else {
+            textArea.setText("""
+                    Não consiguistes fugir, turno do %s...""".formatted(nome));
+            button.setEnabled(false);
+            button2.setEnabled(false);
 
-    private void verificar() {
+            timer = new Timer(2000, (_) -> {
+                vidaMinha = vidaMinha - danoDele;
+                arrumar();
+                textArea.setText(nome + " atacou, seu turno");
+                button.setEnabled(true);
+                verificar();
+            });
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }
+
+    private boolean verificar() {
         if (vidaMinha <= 0) {
             JOptionPane.showMessageDialog(null, "Você morreu");
             frame.toMain(0);
+            return true;
         } else if (vidaDele <= 0) {
             JOptionPane.showMessageDialog(null, "Você venceu");
             frame.toMain(scene);
-            gato.kills++;
+            if (feio == main.mini) {
+                gato.kills = gato.kills + 0.5;
+            } else if (feio == main.cachorro) {
+                gato.kills++;
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 }
