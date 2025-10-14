@@ -2,7 +2,6 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Objects;
 
 public class Batalha extends JPanel {
     Frame frame;
@@ -26,6 +25,7 @@ public class Batalha extends JPanel {
     int vidaMinha;
     int scene;
     int fugir;
+    int random;
     String nome;
 
     Personagem gato;
@@ -44,6 +44,10 @@ public class Batalha extends JPanel {
 
         gato = jogador;
         feio = inimigo;
+
+        ImageIcon icon = new ImageIcon(getClass().getResource("/espada.png"));
+        icon = new ImageIcon(icon.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH));
+        button.setIcon(icon);
 
         setLayout(new BorderLayout());
         add(panel4, BorderLayout.CENTER);
@@ -117,10 +121,12 @@ public class Batalha extends JPanel {
     }
 
     void atacar() {
-        int random = (int) (Math.random() * 10);
+        random = (int) (Math.random() * 10);
         if (random == 1) {
             vidaDele = vidaDele - danoMeu * 2;
             JOptionPane.showMessageDialog(this, "Dano critico");
+        } else if (random == 2) {
+            JOptionPane.showMessageDialog(this, "Errou o ataque");
         } else {
             vidaDele = vidaDele - danoMeu;
         }
@@ -136,9 +142,12 @@ public class Batalha extends JPanel {
             button2.setEnabled(false);
 
             timer = new Timer(2000, (_) -> {
-                if (random == 2) {
+                random = (int) (Math.random() * 10);
+                if (random == 1) {
                     vidaMinha = vidaMinha - danoDele * 2;
                     JOptionPane.showMessageDialog(this, "Dano critico inimigo");
+                } else if (random == 2) {
+                    JOptionPane.showMessageDialog(this, "Ele errou o ataque");
                 } else {
                     vidaMinha = vidaMinha - danoDele;
                 }
@@ -165,9 +174,11 @@ public class Batalha extends JPanel {
             button2.setEnabled(false);
 
             timer = new Timer(2000, (_) -> {
-                if (random == 2) {
+                if (random == 1) {
                     vidaMinha = vidaMinha - danoDele * 2;
                     JOptionPane.showMessageDialog(this, "Dano critico inimigo");
+                } else if (random == 2) {
+                    JOptionPane.showMessageDialog(this, "Ele errou o ataque");
                 } else {
                     vidaMinha = vidaMinha - danoDele;
                 }
@@ -176,6 +187,7 @@ public class Batalha extends JPanel {
                 textArea.setText(nome + " atacou, seu turno");
                 button.setEnabled(true);
                 verificar();
+                button2.setEnabled(true);
             });
             timer.setRepeats(false);
             timer.start();
@@ -191,27 +203,22 @@ public class Batalha extends JPanel {
             JOptionPane.showMessageDialog(null, "Você venceu");
 
             frame.toMain(scene);
-            System.out.println(feio.nome + gato.nome);
             switch (feio.nome) {
-                case "Mini" -> {
-                    if (gato.nome.equals("Sombra")) {
-                        gato.kills = gato.kills + 0.25;
-                        main.moedas = main.moedas + 3;
-                    }
-                    gato.kills = gato.kills + 0.25;
-                    main.moedas = main.moedas + 3;
+                case "Mini Cão" -> {
+                    main.gato.kills = main.gato.kills + 0.25 * main.gato.xpMulti;
+                    main.moedas = main.moedas + 3 * main.gato.moedasMulti;
                 }
                 case "Cão" -> {
-                    gato.kills = gato.kills + 0.5;
-                    main.moedas = main.moedas + 5;
+                    gato.kills = gato.kills + 0.5 * gato.xpMulti;
+                    main.moedas = main.moedas + 5 * gato.moedasMulti;
                 }
                 case "Rei" -> {
-                    gato.kills++;
-                    main.moedas = main.moedas + 10;
+                    gato.kills = gato.kills + gato.xpMulti;
+                    main.moedas = main.moedas + 10 * gato.moedasMulti;
                 }
                 case "Peixe" -> {
-                    gato.kills++;
-                    main.moedas = main.moedas + 5;
+                    gato.kills = gato.kills + gato.xpMulti;
+                    main.moedas = main.moedas + 5 * gato.moedasMulti;
                 }
             }
             main.clean();

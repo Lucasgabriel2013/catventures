@@ -8,17 +8,20 @@ public class Escolha extends JPanel {
 
     JLabel label = new JLabel("Escolha um gato: ", SwingConstants.CENTER);
     JButton gato1 = new JButton("Garfield: 40 vida, 20 dano");
-    JButton gato2 = new JButton("Paçoca: 50 vida, 10 dano");
-    JButton gato3 = new JButton("Tadela: 45 vida, 15 dano");
-    JButton gato4 = new JButton("Sombra: 40 vida, 10 dano (X2 Level e Moedas)");
+    JButton gato2 = new JButton("Paçoca: 55 vida, 10 dano");
+    JButton gato3 = new JButton("Tadela: 48 vida, 15 dano");
+    JButton gato4 = new JButton("Sombra: 35 vida, 10 dano (X2 Level e moedas)");
     JPanel panel = new JPanel();
-    ImageIcon icon1 = new ImageIcon(getClass().getResource("/gato.png"));
-    ImageIcon icon2 = new ImageIcon(getClass().getResource("/gato2.png"));
-    ImageIcon icon3 = new ImageIcon(getClass().getResource("/gato3.png"));
-    ImageIcon icon4 = new ImageIcon(getClass().getResource("/gato4.png"));
+    ImageIcon icon1 = new ImageIcon(getClass().getResource("/Personagens/gato.png"));
+    ImageIcon icon2 = new ImageIcon(getClass().getResource("/Personagens/gato2.png"));
+    ImageIcon icon3 = new ImageIcon(getClass().getResource("/Personagens/gato3.png"));
+    ImageIcon icon4 = new ImageIcon(getClass().getResource("/Personagens/gato4.png"));
 
     Escolha(Frame frame) {
         setLayout(new BorderLayout());
+
+        setBackground(new Color(100, 155, 255));
+        panel.setBackground(new Color(100, 155, 255));
 
         this.frame = frame;
 
@@ -31,7 +34,8 @@ public class Escolha extends JPanel {
         icon3 = new ImageIcon(icon3.getImage().getScaledInstance(275, 200, Image.SCALE_SMOOTH));
         gato3.setIcon(icon3);
 
-        icon4 = new ImageIcon(icon4.getImage().getScaledInstance(275, 200, Image.SCALE_SMOOTH));
+        icon4 = new ImageIcon(icon4.getImage().getScaledInstance(
+    275, 200, Image.SCALE_SMOOTH));
         gato4.setIcon(icon4);
 
         gato4.setFont(new Font("Arial", Font.BOLD, 26));
@@ -64,9 +68,9 @@ public class Escolha extends JPanel {
     void escolha(int numero) {
         switch (numero) {
             case 1 -> frame.toMain(1, 40, 20, icon1, "Garfield");
-            case 2 -> frame.toMain(1, 50, 10, icon2, "Paçoca");
-            case 3 -> frame.toMain(100, 45, 15, icon3, "Tadela");
-            case 4 -> frame.toMain(1, 40, 10, icon4, "Sombra");
+            case 2 -> frame.toMain(1, 55, 10, icon2, "Paçoca");
+            case 3 -> frame.toMain(100, 48, 15, icon3, "Tadela");
+            case 4 -> frame.toMain(1, 35, 10, icon4, "Sombra");
         }
     }
 }

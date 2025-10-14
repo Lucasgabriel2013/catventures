@@ -11,6 +11,8 @@ public class Personagem {
 
     double level;
     double kills;
+    int xpMulti = 1;
+    int moedasMulti = 1;
 
     public Personagem(ImageIcon icon, int dano, int vida, String nome) {
         this.icon = icon;

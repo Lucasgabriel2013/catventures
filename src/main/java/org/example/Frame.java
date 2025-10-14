@@ -23,6 +23,7 @@ public class Frame extends JFrame {
         super("CatVentures");
 
         setLayout(cardLayout);
+        setSize(800, 500);
 
         add(loja, "loja");
         add(arena, "mundo");
@@ -61,7 +62,7 @@ public class Frame extends JFrame {
         cardLayout.show(getContentPane(), "main");
     }
 
-    public void toMundoAberto(int scene) {
+    public void toArena(int scene) {
         arena = new Arena(main, this, scene);
         getContentPane().remove(arena);
         add(arena, "mundo");
@@ -72,5 +73,6 @@ public class Frame extends JFrame {
         cardLayout.show(getContentPane(), "loja");
         loja.moedas = moedas;
         loja.scene = scene;
+        loja.label.setText("Moedas: " + loja.moedas);
     }
 }
