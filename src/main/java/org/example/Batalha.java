@@ -2,6 +2,7 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class Batalha extends JPanel {
     Frame frame;
@@ -109,16 +110,23 @@ public class Batalha extends JPanel {
                 """.formatted(nome, vidaDele, danoDele));
 
         cat.setText("""
-                Gato:
+                %s:
                 Vida: %s
                 Dano: %s
-                """.formatted(vidaMinha, danoMeu));
+                """.formatted(gato.nome, vidaMinha, danoMeu));
     }
 
     void atacar() {
-        vidaDele = vidaDele - danoMeu;
+        int random = (int) (Math.random() * 10);
+        if (random == 1) {
+            vidaDele = vidaDele - danoMeu * 2;
+            JOptionPane.showMessageDialog(this, "Dano critico");
+        } else {
+            vidaDele = vidaDele - danoMeu;
+        }
         arrumar();
         if (verificar()) {
+
         } else {
 
             textArea.setText("""
@@ -128,8 +136,13 @@ public class Batalha extends JPanel {
             button2.setEnabled(false);
 
             timer = new Timer(2000, (_) -> {
-                vidaMinha = vidaMinha - danoDele;
-
+                if (random == 2) {
+                    vidaMinha = vidaMinha - danoDele * 2;
+                    JOptionPane.showMessageDialog(this, "Dano critico inimigo");
+                } else {
+                    vidaMinha = vidaMinha - danoDele;
+                }
+                gato.vida = vidaMinha;
                 arrumar();
                 textArea.setText(nome + " atacou, seu turno");
                 button.setEnabled(true);
@@ -152,7 +165,13 @@ public class Batalha extends JPanel {
             button2.setEnabled(false);
 
             timer = new Timer(2000, (_) -> {
-                vidaMinha = vidaMinha - danoDele;
+                if (random == 2) {
+                    vidaMinha = vidaMinha - danoDele * 2;
+                    JOptionPane.showMessageDialog(this, "Dano critico inimigo");
+                } else {
+                    vidaMinha = vidaMinha - danoDele;
+                }
+                gato.vida = vidaMinha;
                 arrumar();
                 textArea.setText(nome + " atacou, seu turno");
                 button.setEnabled(true);
@@ -170,12 +189,32 @@ public class Batalha extends JPanel {
             return true;
         } else if (vidaDele <= 0) {
             JOptionPane.showMessageDialog(null, "Você venceu");
+
             frame.toMain(scene);
-            if (feio == main.mini) {
-                gato.kills = gato.kills + 0.5;
-            } else if (feio == main.cachorro) {
-                gato.kills++;
+            System.out.println(feio.nome + gato.nome);
+            switch (feio.nome) {
+                case "Mini" -> {
+                    if (gato.nome.equals("Sombra")) {
+                        gato.kills = gato.kills + 0.25;
+                        main.moedas = main.moedas + 3;
+                    }
+                    gato.kills = gato.kills + 0.25;
+                    main.moedas = main.moedas + 3;
+                }
+                case "Cão" -> {
+                    gato.kills = gato.kills + 0.5;
+                    main.moedas = main.moedas + 5;
+                }
+                case "Rei" -> {
+                    gato.kills++;
+                    main.moedas = main.moedas + 10;
+                }
+                case "Peixe" -> {
+                    gato.kills++;
+                    main.moedas = main.moedas + 5;
+                }
             }
+            main.clean();
             return true;
         } else {
             return false;
