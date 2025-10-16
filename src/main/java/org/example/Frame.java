@@ -28,7 +28,7 @@ public class Frame extends JFrame {
         setLayout(cardLayout);
         setSize(800, 500);
 
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/Sons/musicaFundo.wav"))) {
+        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/sons/musicaFundo.wav"))) {
 
             musicaFundo = AudioSystem.getClip();
             musicaFundo.open(audioIn);
@@ -68,8 +68,8 @@ public class Frame extends JFrame {
         main.clean();
     }
 
-    public void toMain(int scene, int vida, int dano, ImageIcon icon, String nome) {
-        main.setScene(scene);
+    public void toMain(int vida, int dano, ImageIcon icon, String nome) {
+        main.setScene(1);
         main.gato.vidaMaxima = vida;
         main.gato.vida = vida;
         main.gato.dano = dano;
@@ -77,7 +77,7 @@ public class Frame extends JFrame {
         main.gato.nome = nome;
         main.clean();
         cardLayout.show(getContentPane(), "main");
-        sound("/Sons/gatoSound1.wav", 5);
+        sound("/sons/gatoSound1.wav", 5);
     }
 
     public void toArena(int scene) {

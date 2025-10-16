@@ -15,12 +15,12 @@ public class Escolha extends JPanel {
     JButton gato5 = new JButton("Sombra: 35 vida, 10 dano (X2 Level e moedas)");
     JButton gato6 = new JButton("Mingau: 35 vida, 15 dano (10 vida / Batalha)");
     JPanel panel = new JPanel();
-    ImageIcon icon1 = new ImageIcon(getClass().getResource("/Personagens/gato.png"));
-    ImageIcon icon2 = new ImageIcon(getClass().getResource("/Personagens/gato2.png"));
-    ImageIcon icon3 = new ImageIcon(getClass().getResource("/Personagens/gato3.png"));
-    ImageIcon icon4 = new ImageIcon(getClass().getResource("/Personagens/gato4.png"));
-    ImageIcon icon5 = new ImageIcon(getClass().getResource("/Personagens/gato5.png"));
-    ImageIcon icon6 = new ImageIcon(getClass().getResource("/Personagens/gato6.png"));
+    ImageIcon icon1 = new ImageIcon(getClass().getResource("/personagens/gato.png"));
+    ImageIcon icon2 = new ImageIcon(getClass().getResource("/personagens/gato2.png"));
+    ImageIcon icon3 = new ImageIcon(getClass().getResource("/personagens/gato3.png"));
+    ImageIcon icon4 = new ImageIcon(getClass().getResource("/personagens/gato4.png"));
+    ImageIcon icon5 = new ImageIcon(getClass().getResource("/personagens/gato5.png"));
+    ImageIcon icon6 = new ImageIcon(getClass().getResource("/personagens/gato6.png"));
 
 
     Escolha(Frame frame, Main main) {
@@ -76,12 +76,12 @@ public class Escolha extends JPanel {
 
     void escolha(int numero) {
         switch (numero) {
-            case 1 -> frame.toMain(1, 40, 20, icon1, "Garfield");
-            case 2 -> frame.toMain(1, 55, 10, icon2, "Paçoca");
-            case 3 -> frame.toMain(100, 48, 15, icon3, "Tadela");
-            case 4 -> frame.toMain(1, 85, 6, icon4, "Tadela");
-            case 5 -> frame.toMain(1, 35, 10, icon5, "Sombra");
-            case 6 -> frame.toMain(1, 35, 15, icon6, "Mingau");
+            case 1 -> frame.toMain(40, 20, icon1, "Garfield");
+            case 2 -> frame.toMain(55, 10, icon2, "Paçoca");
+            case 3 -> frame.toMain(48, 15, icon3, "Tadela");
+            case 4 -> frame.toMain(85, 6, icon4, "Tadela");
+            case 5 -> frame.toMain(35, 10, icon5, "Sombra");
+            case 6 -> frame.toMain(35, 15, icon6, "Mingau");
         }
     }
 }

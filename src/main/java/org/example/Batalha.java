@@ -46,8 +46,7 @@ public class Batalha extends JPanel {
         feio = inimigo;
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/espada.png"));
-        icon = new ImageIcon(icon.getImage().getScaledInstance(250, 250, Image.SCALE_SMOOTH));
-        button.setIcon(icon);
+        main.setIcon(button, icon, 250, 250);
 
         setLayout(new BorderLayout());
         add(panel4, BorderLayout.CENTER);
@@ -152,7 +151,7 @@ public class Batalha extends JPanel {
                 }
                 gato.vida = vidaMinha;
                 arrumar();
-                frame.sound("/Sons/gatoSound1.wav", 5);
+                frame.sound("/sons/gatoSound1.wav", 5);
                 textArea.setText(nome + " atacou, seu turno");
                 button.setEnabled(true);
                 button2.setEnabled(true);

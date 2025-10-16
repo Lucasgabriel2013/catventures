@@ -10,10 +10,10 @@ public class Main extends JPanel {
     JPanel panel = new JPanel();
     JButton button1 = new JButton("1");
     JButton button2 = new JButton("2");
+    JButton button3 = new JButton("3");
+    JButton button4 = new JButton("4");
     JButton icon = new JButton();
     JPanel panel2 = new JPanel();
-    ImageIcon imagem = new ImageIcon(getClass().getResource("/fundos/fundo2.png"));
-    ImageIcon imagem2 = new ImageIcon(getClass().getResource("/fundos/fundo4.png"));
     JButton mundo = new JButton("???");
     JButton loja = new JButton("Loja");
     JPanel panel3 = new JPanel(new GridLayout(1, 7));
@@ -22,54 +22,103 @@ public class Main extends JPanel {
     ImageIcon seta = new ImageIcon(getClass().getResource("/seta.png"));
     ImageIcon moeda = new ImageIcon(getClass().getResource("/moeda.png"));
     ImageIcon star = new ImageIcon(getClass().getResource("/star.png"));
+    ImageIcon espada = new ImageIcon(getClass().getResource("/espada.png"));
 
     Font font = new Font("Arial", Font.BOLD, 40);
     Font font2 = new Font("Arial", Font.BOLD, 20);
 
     JLabel vidaAtr = new JLabel("", SwingConstants.CENTER);
-    JLabel danoAtr = new JLabel("", new ImageIcon(getClass().getResource("/espada.png")), SwingConstants.CENTER);
+    JLabel danoAtr = new JLabel("", SwingConstants.CENTER);
     JLabel levelAtr = new JLabel("", SwingConstants.CENTER);
     JLabel levelUp = new JLabel("", SwingConstants.CENTER);
     JLabel moedasAtr = new JLabel("", SwingConstants.CENTER);
+
+    ImageIcon floresta = new ImageIcon(getClass().getResource("/fundos/fundo1.png"));
+    ImageIcon cachorros = new ImageIcon(getClass().getResource("/fundos/fundo2.png"));
+    ImageIcon castelo = new ImageIcon(getClass().getResource("/fundos/fundo3.png"));
+    ImageIcon lago = new ImageIcon(getClass().getResource("/fundos/fundo4.png"));
+    ImageIcon fundo = new ImageIcon(getClass().getResource("/fundos/fundo5.png"));
+    ImageIcon gatos = new ImageIcon(getClass().getResource("/fundos/fundo6.png"));
 
     int vida;
     int dano;
     int cenaAtual = 1;
     int moedas;
 
-    Personagem gato = new Personagem(new ImageIcon(getClass().getResource("/Personagens/gato.png")), vida, dano, "Gato");
+    Personagem gato = new Personagem(new ImageIcon(getClass().getResource("/personagens/gato.png")), vida, dano, "Gato");
 
-    Personagem mini = new Personagem(new ImageIcon(getClass().getResource("/Personagens/miniCachorro.png")), 10, 25, "Mini Cão");
-    Personagem cachorro = new Personagem(new ImageIcon(getClass().getResource("/Personagens/cachorro.png")), 20, 65, "Cão");
-    Personagem rei = new Personagem(new ImageIcon(getClass().getResource("/Personagens/reiCachorro.png")), 50, 105, "Rei");
+    Personagem mini = new Personagem(new ImageIcon(getClass().getResource("/personagens/miniCachorro.png")), 10, 25, "Mini Cão");
+    Personagem cachorro = new Personagem(new ImageIcon(getClass().getResource("/personagens/cachorro.png")), 20, 65, "Cão");
+    Personagem rei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 50, 105, "Rei");
 
-    Personagem peixe = new Personagem(new ImageIcon(getClass().getResource("/Personagens/peixe.png")), 35, 85, "Peixe");
-    Personagem peixeEstranho = new Personagem(new ImageIcon(getClass().getResource("/Personagens/peixeSus.png")), 65, 140, "Peixe Sus");
+    Personagem peixe = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixe.png")), 35, 85, "Peixe");
+    Personagem peixeEstranho = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixeSus.png")), 65, 140, "Peixe Sus");
 
-    Personagem novoRei = new Personagem(new ImageIcon(getClass().getResource("/Personagens/reiCachorro.png")), 100, 155, "Novo rei");
-    Personagem gatoRei = new Personagem(new ImageIcon(getClass().getResource("/Personagens/gatoRei.png")), 100, 155, "Novo rei");
+    Personagem novoRei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 100, 155, "Rei");
+    Personagem gatoCaca = new Personagem(new ImageIcon(getClass().getResource("/personagens/gatoRei.png")), 20, 25, "Caçador");
 
     Map<Integer, Mensagem> mensagemMap = Map.ofEntries(
-            Map.entry(100, new Mensagem("Você é a Tadela, mas se perdeu de casa, foi à floresta e agora precisa passar por um rio, o que você faz?", "Tenta pular o rio", "Tenta nadar", new ImageIcon(getClass().getResource("/Personagens/gato3.png")))),
-            Map.entry(0, new Mensagem("Você morreu", "", "", new ImageIcon(gato.icon.getImage().getScaledInstance(550, 400, Image.SCALE_SMOOTH)))),
-            Map.entry(1, new Mensagem("Você é um gato, foi à floresta e agora precisa passar por um rio, o que você faz?", "Tenta pular o rio", "Tenta nadar", new ImageIcon(getClass().getResource("/fundos/fundo1.png")))),
-            Map.entry(2, new Mensagem("Você caiu e a correnteza te levou ate o reino dos cães", "Tentar enfrentar um (20 dano, 65 vida)", "Se esconder", imagem)),
-            Map.entry(3, new Mensagem("Estás escondido, e agora?", "Ir lentamente ao castelo", "Tentar voltar para casa", imagem)),
-            Map.entry(4, new Mensagem("Achaste uma poção suspeita", "Tomar", "Não tomar", imagem)),
-            Map.entry(5, new Mensagem("E agora?", "Enfrentar", "Entrar no castelo", imagem)),
-            Map.entry(6, new Mensagem("Você entrou", "Desafiar o rei (50 dano, 105 vida)", "Sair do castelo", new ImageIcon(getClass().getResource("/fundos/fundo3.png")))),
-            Map.entry(7, new Mensagem("Batalhar contra quem?", "Cachorro (20 dano, 65 vida)", "Mini cachorro (10 dano, 25 vida)", imagem)),
-            Map.entry(8, new Mensagem("Escolha", "Voltar pro lago", "Batalhar com o rei", imagem)),
+            Map.entry(1, new Mensagem(
+                    "Você foi um gato maltratado em seu reino, agora podes fugir, pois tem 4 anos",
+                    "Fugir", "", "", "",
+                    gatos)),
 
-            Map.entry(10, new Mensagem("Você sente cheiro de peixe, o segue e para na lagoa", "Desafiar um peixe (85 vida, 35 dano)", "Voltar pro reino", imagem2)),
-            Map.entry(11, new Mensagem("E agora?", "Desafiar um peixe (85 vida, 35 dano)", "Explorar", imagem2)),
-            Map.entry(12, new Mensagem("Você entrou em umas ruinas aquaticas, algo estranha...", "Desafiar um peixe (85 vida, 35 dano)", "Sair do lago", new ImageIcon(getClass().getResource("/fundos/fundo5.png")))),
-            Map.entry(13, new Mensagem("Você está na planicíe, escolha", "Reino dos gatos", "Voltar", new ImageIcon(getClass().getResource("/fundos/fundo1.png")))),
-            Map.entry(14, new Mensagem("O reino está sendo invadido pelos cachorros, você tem duas opções...", "Enfrentar o novo rei", "Se juntar com os cachorros", new ImageIcon(getClass().getResource("/fundos/fundo1.png")))),
+            Map.entry(2, new Mensagem(
+                    "A fuga foi um sucesso! Você está livre, mas o Reino dos Gatos enviou caçadores. Onde você se esconde?",
+                    "Reino dos cães",
+                    "Continuar na floresta", "", "",
+                    floresta)),
 
-            Map.entry(15, new Mensagem("Você venceu o jogo, matou o novo rei dos cachorros", "", "", new ImageIcon(gatoRei.icon.getImage().getScaledInstance(500, 400, Image.SCALE_SMOOTH)))),
-            Map.entry(16, new Mensagem("Você venceu o jogo, se juntando aos cachorros", "", "", new ImageIcon(cachorro.icon.getImage().getScaledInstance(550, 400, Image.SCALE_SMOOTH)))),
-            Map.entry(17, new Mensagem("Você fugiu, final secreto", "", "", new ImageIcon(gatoRei.icon.getImage().getScaledInstance(550, 400, Image.SCALE_SMOOTH))))
+            Map.entry(3, new Mensagem(
+                    "Você chegou a salvo, mas os cães odeiam gatos, então, é melhor tomar cuidado",
+                    "Enfrentar um mini-cão (10 dano, 25 vida)",
+                    "Enfrentar um cachorro (20 dano, 65 vida)",
+                    "Entrar no castelo", "",
+                    cachorros)),
+
+            Map.entry(4, new Mensagem(
+                    "Você entrou no castelo, muito bonito, mas agora, deve tomar cuidado",
+                    "Desafiar o boss",
+                    "Sair do castelo", "", "",
+                    castelo)),
+
+            Map.entry(5, new Mensagem(
+                    "Você matou o rei dos cachorros, agora, pode relaxar, mas onde?",
+                    "No lago",
+                    "Na floresta", "", "",
+                    castelo)),
+
+            Map.entry(6, new Mensagem(
+                    "Você estava no lago relaxando... Uma corrente repentina te arrasta, levando você para o fundo da água.",
+                    "Desafiar um peixe (35 dano, 85 vida)",
+                    "Explorar", "", "",
+                    lago)),
+
+            Map.entry(601, new Mensagem(
+                    "E agora?",
+                    "Desafiar um peixe (35 dano, 85 vida)",
+                    "Voltar a caverna", "", "",
+                    lago)),
+
+            Map.entry(7, new Mensagem(
+                    "No fundo do lago, você encontra uma caverna submersa iluminada por algas brilhantes.",
+                    "Investigar a caverna",
+                    "Nadar de volta à superfície",
+                    "Explorar o fundo sem entrar na caverna",
+                    "",
+                    fundo)),
+
+            Map.entry(701, new Mensagem(
+                    "Você não achou nada no fundo, apenas algas",
+                    "Entrar na caverna",
+                    "", "", "",
+                    fundo)),
+
+            Map.entry(8, new Mensagem(
+                    "Você consegue avançar pela caverna e encontra uma bifurcação submersa.",
+                    "Seguir pelo túnel à esquerda",
+                    "Seguir pelo túnel à direita", "", "",
+                    fundo))
     );
 
     Main(Frame frame) {
@@ -81,6 +130,7 @@ public class Main extends JPanel {
         setIcon(levelUp, seta);
         setIcon(moedasAtr, moeda);
         setIcon(levelAtr, star);
+        setIcon(danoAtr, espada, 72, 72);
 
         setLayout(new BorderLayout());
 
@@ -96,7 +146,7 @@ public class Main extends JPanel {
         loja.setBackground(new Color(147, 68, 68));
 
         mundo.setEnabled(false);
-        panel.setLayout(new GridLayout(1, 2));
+        panel.setLayout(new GridLayout(2, 2));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
         textArea.setEditable(false);
@@ -104,6 +154,8 @@ public class Main extends JPanel {
         textArea.setFont(font);
         button1.setFont(font);
         button2.setFont(font);
+        button3.setFont(font);
+        button4.setFont(font);
         mundo.setFont(font);
         loja.setFont(font);
         danoAtr.setFont(font2);
@@ -120,12 +172,89 @@ public class Main extends JPanel {
         add(panel, BorderLayout.SOUTH);
         panel.add(button1);
         panel.add(button2);
+        panel.add(button3);
+        panel.add(button4);
 
-        button1.addActionListener(_ -> escolha1());
-        button2.addActionListener(_ -> escolha2());
+        button1.addActionListener(_ -> escolha(1));
+        button2.addActionListener(_ -> escolha(2));
+        button3.addActionListener(_ -> escolha(3));
+        button4.addActionListener(_ -> escolha(4));
 
         mundo.addActionListener(_ -> frame.toArena(cenaAtual));
         loja.addActionListener(_ -> frame.toLoja(moedas, cenaAtual));
+    }
+
+    void escolha(int i) {
+        switch (cenaAtual) {
+            case 1 -> cenaAtual = 2;
+
+            case 2 -> {
+                if (i == 1) {
+                    cenaAtual = 3;
+                } else if (i == 2) {
+                    JOptionPane.showMessageDialog(this, "A floresta foi o lugar mais procurado pelos caçadores", "Você foi pego", JOptionPane.INFORMATION_MESSAGE);
+                    frame.toBatalha(new Batalha(frame, this, gato, gatoCaca, 3, 3));
+                }
+            }
+
+            case 3 -> {
+                if (i == 1) {
+                    frame.toBatalha(new Batalha(frame, this, gato, mini, 3, 3));
+                } else if (i == 2) {
+                    frame.toBatalha(new Batalha(frame, this, gato, cachorro, 3, 3));
+                } else if (i == 3) {
+                    cenaAtual = 4;
+                }
+            }
+
+            case 4 -> {
+                if (i == 1) {
+                    frame.toBatalha(new Batalha(frame, this, gato, rei, 5, 4));
+                } else if (i == 2) {
+                    cenaAtual = 2;
+                }
+            }
+
+            case 5 -> {
+                if (i == 1) {
+                    cenaAtual = 6;
+                } else if (i == 2) {
+                    JOptionPane.showMessageDialog(this, "Futuramente");
+                }
+            }
+
+            case 6 -> {
+                if (i == 1) {
+                    frame.toBatalha(new Batalha(frame, this, gato, peixe, 6, 6));
+                } else if (i == 2) {
+                    cenaAtual = 7;
+                }
+            }
+
+            case 601 -> {
+                if (i == 1) {
+                    frame.toBatalha(new Batalha(frame, this, gato, peixe, 601, 601));
+                } else if (i == 2) {
+                    cenaAtual = 7;
+                }
+            }
+
+            case 7 -> {
+                if (i == 1) {
+                    cenaAtual = 8;
+                } else if (i == 2) {
+                    cenaAtual = 601;
+                } else if (i == 3) {
+                    cenaAtual = 701;
+                }
+            }
+
+            case 701 -> {
+                cenaAtual = 8;
+            }
+        }
+        setScene(cenaAtual);
+        clean();
     }
 
     public void setScene(int id) {
@@ -136,85 +265,15 @@ public class Main extends JPanel {
         textArea.setText(mensagem.mensagem());
         button1.setText(mensagem.resposta1());
         button2.setText(mensagem.resposta2());
+        button3.setText(mensagem.resposta3());
+        button4.setText(mensagem.resposta4());
+
+        button1.setVisible(!mensagem.resposta1().isEmpty());
+        button2.setVisible(!mensagem.resposta2().isEmpty());
+        button3.setVisible(!mensagem.resposta3().isEmpty());
+        button4.setVisible(!mensagem.resposta4().isEmpty());
     }
 
-    void escolha1() {
-        switch (cenaAtual) {
-            case 1, 100 -> cenaAtual = 2;
-            case 2 -> frame.toBatalha(new Batalha(frame, this, gato, cachorro, 4, 2));
-            case 3 -> cenaAtual = 4;
-            case 4 -> randomPocao();
-            case 5 -> cenaAtual = 7;
-            case 6 -> frame.toBatalha(new Batalha(frame, this, gato, rei, 10, 6));
-            case 7 -> frame.toBatalha(new Batalha(frame, this, gato, cachorro, 5, 5));
-            case 8 -> cenaAtual = 10;
-
-            case 10 -> frame.toBatalha(new Batalha(frame, this, gato, peixe, 11, 10));
-            case 11, 12 -> frame.toBatalha(new Batalha(frame, this, gato, peixe, 11, 11));
-            case 13 -> cenaAtual = 14;
-            case 14 -> frame.toBatalha(new Batalha(frame, this, gato, novoRei, 15, 14));
-        }
-        setScene(cenaAtual);
-        clean();
-        if (cenaAtual >= 15 && cenaAtual <= 18 || cenaAtual == 0) {
-            loja.setEnabled(false);
-        }
-    }
-
-    private void randomPocao() {
-        int random = (int) (Math.random() * 10);
-        if (random < 8) {
-            JOptionPane.showMessageDialog(this, "Era uma poção de vida (+15 vida)");
-            gato.vidaMaxima = gato.vidaMaxima + 15;
-            gato.vida = gato.vidaMaxima;
-        } else {
-            JOptionPane.showMessageDialog(this, "Era uma poção ruim (-5 dano)");
-            gato.dano = gato.dano - 5;
-        }
-        cenaAtual = 5;
-    }
-
-    void escolha2() {
-        switch (cenaAtual) {
-            case 1, 100 -> cenaAtual = 2;
-            case 2 -> cenaAtual = 3;
-            case 3 -> {
-                int random = (int) (Math.random() * 20);
-                if (random == 1) {
-                    cenaAtual = 17;
-                    JOptionPane.showMessageDialog(this, "Final secreto");
-                    loja.setEnabled(false);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Você foi pego");
-                    frame.toBatalha(new Batalha(frame, this, gato, cachorro, 4, 3));
-                }
-            }
-            case 4, 6 -> cenaAtual = 5;
-            case 5 -> cenaAtual = 6;
-            case 7 -> frame.toBatalha(new Batalha(frame, this, gato, mini, 5, 5));
-            case 8 -> frame.toBatalha(new Batalha(frame, this, gato, rei, 10, 6));
-
-            case 10 -> cenaAtual = 8;
-            case 11 -> {
-                mundo.setEnabled(true);
-                mundo.setText("Arena");
-                mundo.setBackground(new Color(42, 39, 39));
-                cenaAtual = 12;
-            }
-            case 12 -> cenaAtual = 13;
-            case 13 -> frame.toBatalha(new Batalha(frame, this, gato, mini, 13, 13));
-            case 14 -> {
-                frame.toBatalha(new Batalha(frame, this, gato, gatoRei, 16, 14));
-                loja.setEnabled(false);
-            }
-        }
-        setScene(cenaAtual);
-        clean();
-        if ((cenaAtual >= 15 && cenaAtual <= 18) || cenaAtual == 0) {
-            loja.setEnabled(false);
-            mundo.setEnabled(false);
-        }
-    }
 
     public void clean() {
         if (gato.nome.equals("Sombra") && gato.xpMulti < 2 && gato.moedasMulti < 2) {
@@ -228,7 +287,10 @@ public class Main extends JPanel {
             gato.vidaMaxima = gato.vidaMaxima + 10;
             gato.vida = gato.vida + 10;
             gato.dano = dano + 5;
-            frame.sound("/Sons/levelUp.wav", 5f);
+            frame.sound("/sons/levelUp.wav", 5f);
+        }
+        if (gato.vida < 0) {
+            gato.vida = 0;
         }
         vida = gato.vida;
         dano = gato.dano;
@@ -245,6 +307,11 @@ public class Main extends JPanel {
 
     public void setIcon(JLabel label, ImageIcon icon) {
         icon = new ImageIcon(icon.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+        label.setIcon(icon);
+    }
+
+    public void setIcon(JLabel label, ImageIcon icon, int width, int height) {
+        icon = new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
         label.setIcon(icon);
     }
 
