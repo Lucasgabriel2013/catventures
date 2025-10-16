@@ -11,8 +11,6 @@ public class Arena extends JPanel {
     JButton voltar = new JButton("Voltar para a tela");
     int scene;
 
-    JButton button5;
-
     Arena(Main main, Frame frame, int scene) {
         this.main = main;
         this.frame = frame;
@@ -57,7 +55,7 @@ public class Arena extends JPanel {
         button4.addActionListener(_ -> batalha(4));
         button5.addActionListener(_ -> batalha(5));
 
-        voltar.addActionListener(_ -> voltar());
+        voltar.addActionListener(_ -> frame.toMain(scene));
     }
 
     void batalha(int i) {
@@ -66,19 +64,7 @@ public class Arena extends JPanel {
             case 2 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.mini, scene, scene));
             case 3 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.rei, scene, scene));
             case 4 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.peixe, scene, scene));
-            case 5 -> {
-                frame.toBatalha(new Batalha(frame, main, main.gato, main.peixeEstranho, scene, scene));
-                main.gato.moedasMulti = 2;
-                main.gato.xpMulti = 2;
-            }
+            case 5 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.peixeEstranho, scene, scene));
         }
-    }
-
-    void voltar() {
-        frame.toMain(scene);
-    }
-
-    void add1() {
-        panel.add(button5);
     }
 }

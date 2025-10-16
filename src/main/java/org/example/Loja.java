@@ -7,16 +7,24 @@ public class Loja extends JPanel {
     Frame frame;
     Main main;
 
-    JButton pocao = new JButton("Poção de vida: Primeira compra gratuita");
-    JButton dano = new JButton("Boost eterno de dano: 30 moedas");
+    JButton pocao = new JButton("Poção de vida: gratuito");
+    JButton dano = new JButton("Boost de dano: 30 moedas");
     JButton catnip = new JButton("Catnip: 50 moedas");
+    JButton level = new JButton("Level: 75 moedas");
+
     JButton button = new JButton("Voltar");
     JLabel label = new JLabel("Moedas: ", SwingConstants.CENTER);
-    JPanel panel = new JPanel(new GridLayout(3, 1));
+    JPanel panel = new JPanel(new GridLayout(2, 2));
     JPanel northPanel = new JPanel(new GridLayout(1, 2));
+
+    ImageIcon starIcon = new ImageIcon(getClass().getResource("/star.png"));
+    ImageIcon catnipIcon = new ImageIcon(getClass().getResource("/catnip.png"));
+    ImageIcon danoIcon = new ImageIcon(getClass().getResource("/forca.png"));
+    ImageIcon pocaoIcon = new ImageIcon(getClass().getResource("/pocao.png"));
 
     int moedas = 0;
     int scene;
+    int price = 75;
 
     Loja(Frame frame, Main main) {
         this.frame = frame;
@@ -26,35 +34,45 @@ public class Loja extends JPanel {
 
         setLayout(new BorderLayout());
 
-        pocao.setIcon(new ImageIcon(getClass().getResource("/pocao.png")));
-        dano.setIcon(new ImageIcon(getClass().getResource("/forca.png")));
-        catnip.setIcon(new ImageIcon(getClass().getResource("/catnip.png")));
+        main.setIcon(level, starIcon, 300, 275);
+        main.setIcon(pocao, pocaoIcon, 400, 300);
+        main.setIcon(dano, danoIcon, 400, 300);
+        main.setIcon(catnip, catnipIcon, 500, 350);
 
         add(northPanel, BorderLayout.NORTH);
         northPanel.add(label);
         northPanel.add(button);
         label.setFont(new Font("Arial", Font.BOLD, 34));
         button.setFont(new Font("Arial", Font.BOLD, 34));
+
         pocao.setFont(new Font("Arial", Font.BOLD, 34));
         dano.setFont(new Font("Arial", Font.BOLD, 34));
         catnip.setFont(new Font("Arial", Font.BOLD, 34));
+        level.setFont(new Font("Arial", Font.BOLD, 34));
+
+        pocao.setBackground(new Color(0x9483FF));
+        dano.setBackground(new Color(0xE3B572));
+        catnip.setBackground(new Color(0x346200));
+        level.setBackground(new Color(0x676300));
 
         add(panel, BorderLayout.CENTER);
         panel.add(pocao);
         panel.add(dano);
         panel.add(catnip);
+        panel.add(level);
 
         setVisible(true);
 
         pocao.addActionListener(_ -> compra1());
         dano.addActionListener(_ -> compra2());
         catnip.addActionListener(_ -> compra3());
+        level.addActionListener(_ -> compra4());
 
         button.addActionListener(_ -> sair());
     }
 
     void compra1() {
-        if (pocao.getText().endsWith("gratuita")) {
+        if (pocao.getText().endsWith("gratuito")) {
             JOptionPane.showMessageDialog(this, "Compra efetuada, vida maxíma");
             main.gato.vida = main.gato.vidaMaxima;
             pocao.setText("Poção de vida: 10 moedas");
@@ -93,6 +111,21 @@ public class Loja extends JPanel {
             main.gato.xpMulti = main.gato.xpMulti * 3;
             catnip.setEnabled(false);
             catnip.setText("Compra já feita");
+        } else {
+            JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
+        }
+        main.clean();
+        label.setText("Moedas: " + this.moedas);
+    }
+
+    void compra4() {
+        if (moedas >= price) {
+            JOptionPane.showMessageDialog(this, "Compra efetuada, +1 level");
+            moedas = moedas - price;
+            main.moedas = main.moedas - price;
+            price = price + 25;
+            main.gato.level++;
+            level.setText("Level: %s moedas".formatted(price));
         } else {
             JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
         }

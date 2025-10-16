@@ -15,7 +15,7 @@ public class Main extends JPanel {
     ImageIcon imagem = new ImageIcon(getClass().getResource("/fundos/fundo2.png"));
     ImageIcon imagem2 = new ImageIcon(getClass().getResource("/fundos/fundo4.png"));
     JButton mundo = new JButton("???");
-    JButton loja = new JButton("Abrir Loja");
+    JButton loja = new JButton("Loja");
     JPanel panel3 = new JPanel(new GridLayout(1, 7));
 
     ImageIcon heart = new ImageIcon(getClass().getResource("/coracao.png"));
@@ -27,7 +27,7 @@ public class Main extends JPanel {
     Font font2 = new Font("Arial", Font.BOLD, 20);
 
     JLabel vidaAtr = new JLabel("", SwingConstants.CENTER);
-    JLabel danoAtr = new JLabel("", new ImageIcon(getClass().getResource("/espada.png")),  SwingConstants.CENTER);
+    JLabel danoAtr = new JLabel("", new ImageIcon(getClass().getResource("/espada.png")), SwingConstants.CENTER);
     JLabel levelAtr = new JLabel("", SwingConstants.CENTER);
     JLabel levelUp = new JLabel("", SwingConstants.CENTER);
     JLabel moedasAtr = new JLabel("", SwingConstants.CENTER);
@@ -77,17 +77,10 @@ public class Main extends JPanel {
 
         this.frame = frame;
 
-        heart = new ImageIcon(heart.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-        vidaAtr.setIcon(heart);
-
-        seta = new ImageIcon(seta.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-        levelUp.setIcon(seta);
-
-        moeda = new ImageIcon(moeda.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-        moedasAtr.setIcon(moeda);
-
-        star = new ImageIcon(star.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-        levelAtr.setIcon(star);
+        setIcon(vidaAtr, heart);
+        setIcon(levelUp, seta);
+        setIcon(moedasAtr, moeda);
+        setIcon(levelAtr, star);
 
         setLayout(new BorderLayout());
 
@@ -99,6 +92,8 @@ public class Main extends JPanel {
         panel3.add(levelUp);
         panel3.add(moedasAtr);
         panel3.add(loja);
+
+        loja.setBackground(new Color(147, 68, 68));
 
         mundo.setEnabled(false);
         panel.setLayout(new GridLayout(1, 2));
@@ -161,14 +156,14 @@ public class Main extends JPanel {
         }
         setScene(cenaAtual);
         clean();
-        if (cenaAtual == 15 || cenaAtual == 16 || cenaAtual == 0) {
+        if (cenaAtual >= 15 && cenaAtual <= 18 || cenaAtual == 0) {
             loja.setEnabled(false);
         }
     }
 
     private void randomPocao() {
         int random = (int) (Math.random() * 10);
-        if (random < 6) {
+        if (random < 8) {
             JOptionPane.showMessageDialog(this, "Era uma poção de vida (+15 vida)");
             gato.vidaMaxima = gato.vidaMaxima + 15;
             gato.vida = gato.vidaMaxima;
@@ -202,7 +197,8 @@ public class Main extends JPanel {
             case 10 -> cenaAtual = 8;
             case 11 -> {
                 mundo.setEnabled(true);
-                mundo.setText("Ir à arena");
+                mundo.setText("Arena");
+                mundo.setBackground(new Color(42, 39, 39));
                 cenaAtual = 12;
             }
             case 12 -> cenaAtual = 13;
@@ -214,7 +210,7 @@ public class Main extends JPanel {
         }
         setScene(cenaAtual);
         clean();
-        if (cenaAtual >= 15 && cenaAtual <= 18 || cenaAtual == 0) {
+        if ((cenaAtual >= 15 && cenaAtual <= 18) || cenaAtual == 0) {
             loja.setEnabled(false);
             mundo.setEnabled(false);
         }
@@ -232,14 +228,28 @@ public class Main extends JPanel {
             gato.vidaMaxima = gato.vidaMaxima + 10;
             gato.vida = gato.vida + 10;
             gato.dano = dano + 5;
+            frame.sound("/Sons/levelUp.wav", 5f);
         }
         vida = gato.vida;
         dano = gato.dano;
 
         danoAtr.setText("Dano: " + dano);
         levelAtr.setText("LEVEL: " + gato.level);
-        levelUp.setText("Level up: " + gato.kills + " / " + gato.level );
+        levelUp.setText("Level up: " + gato.kills + " / " + gato.level);
         moedasAtr.setText("Moedas: " + moedas);
         vidaAtr.setText("Vida: " + vida + " / " + gato.vidaMaxima);
+
+        revalidate();
+        repaint();
+    }
+
+    public void setIcon(JLabel label, ImageIcon icon) {
+        icon = new ImageIcon(icon.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
+        label.setIcon(icon);
+    }
+
+    public void setIcon(JButton button, ImageIcon icon, int width, int height) {
+        icon = new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
+        button.setIcon(icon);
     }
 }

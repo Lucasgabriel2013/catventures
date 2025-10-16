@@ -132,7 +132,6 @@ public class Batalha extends JPanel {
         }
         arrumar();
         if (verificar()) {
-
         } else {
 
             textArea.setText("""
@@ -153,6 +152,7 @@ public class Batalha extends JPanel {
                 }
                 gato.vida = vidaMinha;
                 arrumar();
+                frame.sound("/Sons/gatoSound1.wav", 5);
                 textArea.setText(nome + " atacou, seu turno");
                 button.setEnabled(true);
                 button2.setEnabled(true);
@@ -160,6 +160,7 @@ public class Batalha extends JPanel {
             });
             timer.setRepeats(false);
             timer.start();
+            main.clean();
         }
     }
 
@@ -219,6 +220,15 @@ public class Batalha extends JPanel {
                 case "Peixe" -> {
                     gato.kills = gato.kills + gato.xpMulti;
                     main.moedas = main.moedas + 5 * gato.moedasMulti;
+                }
+            }
+
+            if (gato.nome.equals("Mingau") && main.gato.vida < main.gato.vidaMaxima) {
+                if (main.gato.vida + 10 > main.gato.vidaMaxima) {
+                    int i = main.gato.vidaMaxima - main.gato.vida;
+                    main.gato.vida = main.gato.vida + i;
+                } else {
+                    main.gato.vida = main.gato.vida + 10;
                 }
             }
             main.clean();
