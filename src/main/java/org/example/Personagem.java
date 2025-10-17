@@ -14,12 +14,17 @@ public class Personagem {
     int xpMulti = 1;
     int moedasMulti = 1;
 
-    public Personagem(ImageIcon icon, int dano, int vida, String nome) {
+    double xpRecebido;
+    int moedasRecebidas;
+
+    public Personagem(ImageIcon icon, int dano, int vida, double xp, int moedas, String nome) {
         this.icon = icon;
         this.dano = dano;
         this.vidaMaxima = vida;
         this.vida = vidaMaxima;
         this.nome = nome;
+        this.xpRecebido = xp;
+        this.moedasRecebidas = moedas;
     }
 
     public String toString() {

@@ -17,8 +17,11 @@ public class Batalha extends JPanel {
     JPanel panel2 = new JPanel();
     JPanel panel3 = new JPanel();
     JPanel panel4 = new JPanel(new BorderLayout());
+    JProgressBar defense = new JProgressBar(0, 100);
+    JButton button3 = new JButton("Defender");
 
     Timer timer;
+    Timer defenseTime;
     int danoDele;
     int vidaDele;
     int danoMeu;
@@ -26,6 +29,7 @@ public class Batalha extends JPanel {
     int scene;
     int fugir;
     int random;
+    boolean defendido;
     String nome;
 
     Personagem gato;
@@ -39,14 +43,21 @@ public class Batalha extends JPanel {
         this.frame = frame;
         this.main = main;
 
+        button3.setEnabled(false);
+
+        Utils.setIcon(button3, new ImageIcon(getClass().getResource("/shield.png")), 144, 144);
+        Utils.setIcon(button2, new ImageIcon(getClass().getResource("/correr.png")), 160, 160);
+
         scene = victoryScene;
         fugir = fugirScene;
 
         gato = jogador;
         feio = inimigo;
 
+        defense.setOrientation(SwingConstants.VERTICAL);
+
         ImageIcon icon = new ImageIcon(getClass().getResource("/espada.png"));
-        main.setIcon(button, icon, 250, 250);
+        Utils.setIcon(button, icon, 250, 250);
 
         setLayout(new BorderLayout());
         add(panel4, BorderLayout.CENTER);
@@ -57,6 +68,7 @@ public class Batalha extends JPanel {
 
         button.setFont(new Font("Arial", Font.BOLD, 40));
         button2.setFont(new Font("Arial", Font.BOLD, 40));
+        button3.setFont(new Font("Arial", Font.BOLD, 40));
 
         add(panel, BorderLayout.WEST);
         ImageIcon iconCatFinal = new ImageIcon(jogador.icon.getImage().getScaledInstance(130, 100, Image.SCALE_SMOOTH));
@@ -88,7 +100,7 @@ public class Batalha extends JPanel {
 
         add(panel2, BorderLayout.EAST);
         panel2.setLayout(new GridLayout(3, 1));
-        panel2.add(new JPanel());
+        panel2.add(defense);
         panel2.add(enemy);
         panel2.add(iconLabel2);
 
@@ -97,12 +109,14 @@ public class Batalha extends JPanel {
         panel.add(iconLabel);
 
         panel4.add(panel3, BorderLayout.SOUTH);
-        panel3.setLayout(new GridLayout(1, 2));
+        panel3.setLayout(new GridLayout(1, 3));
         panel3.add(button);
         panel3.add(button2);
+        panel3.add(button3);
 
         button.addActionListener(_ -> atacar());
         button2.addActionListener(_ -> fugir());
+        button3.addActionListener(_ -> defendido = true);
     }
 
     public void arrumar() {
@@ -140,22 +154,30 @@ public class Batalha extends JPanel {
             button2.setEnabled(false);
 
             timer = new Timer(2000, (_) -> {
-                random = (int) (Math.random() * 10);
-                if (random == 1) {
-                    vidaMinha = vidaMinha - danoDele * 2;
-                    JOptionPane.showMessageDialog(this, "Dano critico inimigo");
-                } else if (random == 2) {
-                    JOptionPane.showMessageDialog(this, "Ele errou o ataque");
-                } else {
-                    vidaMinha = vidaMinha - danoDele;
-                }
-                gato.vida = vidaMinha;
-                arrumar();
-                frame.sound("/sons/gatoSound1.wav", 5);
-                textArea.setText(nome + " atacou, seu turno");
-                button.setEnabled(true);
-                button2.setEnabled(true);
-                verificar();
+                button3.setEnabled(true);
+                defenseTime = new Timer(10, _ -> {
+                    defense.setValue(defense.getValue() + 1);
+                    if (defense.getValue() < 95 && defense.getValue() < 100 && defendido) {
+                        defendido = false;
+                        defense.setValue(100);
+                    }
+                    if (defense.getValue() > 95 && defense.getValue() < 100 && defendido) {
+                        defenseTime.stop();
+                        button3.setEnabled(false);
+                        defense.setValue(0);
+                        defendido = false;
+                        textArea.setText("Você defendeu o ataque de " + nome + ", seu turno");
+                        button.setEnabled(true);
+                        button2.setEnabled(true);
+                    } else if (defense.getValue() == 100) {
+                        defenseTime.stop();
+                        button3.setEnabled(false);
+                        defense.setValue(0);
+                        defendido = false;
+                        adversario();
+                    }
+                });
+                defenseTime.start();
             });
             timer.setRepeats(false);
             timer.start();
@@ -163,13 +185,29 @@ public class Batalha extends JPanel {
         }
     }
 
+    private void adversario() {
+        random = (int) (Math.random() * 10);
+        if (random == 1) {
+            vidaMinha = vidaMinha - danoDele * 2;
+            JOptionPane.showMessageDialog(this, "Dano critico inimigo");
+        } else {
+            vidaMinha = vidaMinha - danoDele;
+        }
+        gato.vida = vidaMinha;
+        arrumar();
+        Utils.sound("/sons/gatoSound1.wav", 0);
+        textArea.setText(nome + " atacou, seu turno");
+        button.setEnabled(true);
+        button2.setEnabled(true);
+        verificar();
+    }
+
     void fugir() {
         int random = (int) (Math.random() * 10);
         if (random > 5) {
             frame.toMain(fugir);
         } else {
-            textArea.setText("""
-                    Não consiguistes fugir, turno do %s...""".formatted(nome));
+            textArea.setText("Não consiguistes fugir, turno do %s...".formatted(nome));
             button.setEnabled(false);
             button2.setEnabled(false);
 
@@ -203,31 +241,15 @@ public class Batalha extends JPanel {
             JOptionPane.showMessageDialog(null, "Você venceu");
 
             frame.toMain(scene);
-            switch (feio.nome) {
-                case "Mini Cão" -> {
-                    main.gato.kills = main.gato.kills + 0.25 * main.gato.xpMulti;
-                    main.moedas = main.moedas + 3 * main.gato.moedasMulti;
-                }
-                case "Cão" -> {
-                    gato.kills = gato.kills + 0.5 * gato.xpMulti;
-                    main.moedas = main.moedas + 5 * gato.moedasMulti;
-                }
-                case "Rei" -> {
-                    gato.kills = gato.kills + gato.xpMulti;
-                    main.moedas = main.moedas + 10 * gato.moedasMulti;
-                }
-                case "Peixe" -> {
-                    gato.kills = gato.kills + gato.xpMulti;
-                    main.moedas = main.moedas + 5 * gato.moedasMulti;
-                }
-            }
+            main.gato.kills = main.gato.kills + feio.xpRecebido;
+            main.moedas = main.moedas + feio.moedasRecebidas;
 
             if (gato.nome.equals("Mingau") && main.gato.vida < main.gato.vidaMaxima) {
-                if (main.gato.vida + 10 > main.gato.vidaMaxima) {
+                if (main.gato.vida + 5 > main.gato.vidaMaxima) {
                     int i = main.gato.vidaMaxima - main.gato.vida;
                     main.gato.vida = main.gato.vida + i;
                 } else {
-                    main.gato.vida = main.gato.vida + 10;
+                    main.gato.vida = main.gato.vida + 5;
                 }
             }
             main.clean();

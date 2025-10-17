@@ -45,19 +45,23 @@ public class Main extends JPanel {
     int cenaAtual = 1;
     int moedas;
 
-    Personagem gato = new Personagem(new ImageIcon(getClass().getResource("/personagens/gato.png")), vida, dano, "Gato");
+    Personagem gato = new Personagem(new ImageIcon(getClass().getResource("/personagens/gato.png")), dano, vida, 0, 0, "Gato");
 
-    Personagem mini = new Personagem(new ImageIcon(getClass().getResource("/personagens/miniCachorro.png")), 10, 25, "Mini Cão");
-    Personagem cachorro = new Personagem(new ImageIcon(getClass().getResource("/personagens/cachorro.png")), 20, 65, "Cão");
-    Personagem rei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 50, 105, "Rei");
+    Personagem mini = new Personagem(new ImageIcon(getClass().getResource("/personagens/miniCachorro.png")), 10, 25, 0.25, 3, "Mini Cão");
+    Personagem cachorro = new Personagem(new ImageIcon(getClass().getResource("/personagens/cachorro.png")), 20, 65, 0.5, 5, "Cão");
+    Personagem rei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 50, 105, 1.0, 10, "Rei");
 
-    Personagem peixe = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixe.png")), 35, 85, "Peixe");
-    Personagem peixeEstranho = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixeSus.png")), 65, 140, "Peixe Sus");
+    Personagem peixe = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixe.png")), 35, 85, 1.0, 5, "Peixe");
+    Personagem peixeEstranho = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixeSus.png")), 65, 140, 1.5, 10, "Peixe Sus");
 
-    Personagem novoRei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 100, 155, "Rei");
-    Personagem gatoCaca = new Personagem(new ImageIcon(getClass().getResource("/personagens/gatoRei.png")), 20, 25, "Caçador");
+    Personagem novoRei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 100, 155, 2.0, 15, "Rei");
+    Personagem gatoCaca = new Personagem(new ImageIcon(getClass().getResource("/personagens/gatoRei.png")), 20, 25, 0.25, 3, "Caçador");
 
     Map<Integer, Mensagem> mensagemMap = Map.ofEntries(
+            Map.entry(0, new Mensagem(
+                    "", "", "", "", "",
+                    gatos)),
+
             Map.entry(1, new Mensagem(
                     "Você foi um gato maltratado em seu reino, agora podes fugir, pois tem 4 anos",
                     "Fugir", "", "", "",
@@ -94,7 +98,7 @@ public class Main extends JPanel {
                     "Explorar", "", "",
                     lago)),
 
-            Map.entry(601, new Mensagem(
+            Map.entry(6_01, new Mensagem(
                     "E agora?",
                     "Desafiar um peixe (35 dano, 85 vida)",
                     "Voltar a caverna", "", "",
@@ -108,7 +112,7 @@ public class Main extends JPanel {
                     "",
                     fundo)),
 
-            Map.entry(701, new Mensagem(
+            Map.entry(7_01, new Mensagem(
                     "Você não achou nada no fundo, apenas algas",
                     "Entrar na caverna",
                     "", "", "",
@@ -126,11 +130,11 @@ public class Main extends JPanel {
 
         this.frame = frame;
 
-        setIcon(vidaAtr, heart);
-        setIcon(levelUp, seta);
-        setIcon(moedasAtr, moeda);
-        setIcon(levelAtr, star);
-        setIcon(danoAtr, espada, 72, 72);
+        Utils.setIcon(vidaAtr, heart, 56, 56);
+        Utils.setIcon(levelUp, seta, 56, 56);
+        Utils.setIcon(moedasAtr, moeda, 56, 56);
+        Utils.setIcon(levelAtr, star, 56, 56);
+        Utils.setIcon(danoAtr, espada, 72, 72);
 
         setLayout(new BorderLayout());
 
@@ -143,7 +147,8 @@ public class Main extends JPanel {
         panel3.add(moedasAtr);
         panel3.add(loja);
 
-        loja.setBackground(new Color(147, 68, 68));
+        loja.setBackground(new Color(147, 49, 49));
+        loja.setForeground(Color.white);
 
         mundo.setEnabled(false);
         panel.setLayout(new GridLayout(2, 2));
@@ -228,10 +233,13 @@ public class Main extends JPanel {
                     frame.toBatalha(new Batalha(frame, this, gato, peixe, 6, 6));
                 } else if (i == 2) {
                     cenaAtual = 7;
+                    mundo.setEnabled(true);
+                    mundo.setText("Arena");
+                    mundo.setBackground(Color.gray);
                 }
             }
 
-            case 601 -> {
+            case 6_01 -> {
                 if (i == 1) {
                     frame.toBatalha(new Batalha(frame, this, gato, peixe, 601, 601));
                 } else if (i == 2) {
@@ -249,9 +257,7 @@ public class Main extends JPanel {
                 }
             }
 
-            case 701 -> {
-                cenaAtual = 8;
-            }
+            case 7_01 -> cenaAtual = 8;
         }
         setScene(cenaAtual);
         clean();
@@ -287,7 +293,7 @@ public class Main extends JPanel {
             gato.vidaMaxima = gato.vidaMaxima + 10;
             gato.vida = gato.vida + 10;
             gato.dano = dano + 5;
-            frame.sound("/sons/levelUp.wav", 5f);
+            Utils.sound("/sons/levelUp.wav", 5f);
         }
         if (gato.vida < 0) {
             gato.vida = 0;
@@ -303,20 +309,5 @@ public class Main extends JPanel {
 
         revalidate();
         repaint();
-    }
-
-    public void setIcon(JLabel label, ImageIcon icon) {
-        icon = new ImageIcon(icon.getImage().getScaledInstance(56, 56, Image.SCALE_SMOOTH));
-        label.setIcon(icon);
-    }
-
-    public void setIcon(JLabel label, ImageIcon icon, int width, int height) {
-        icon = new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-        label.setIcon(icon);
-    }
-
-    public void setIcon(JButton button, ImageIcon icon, int width, int height) {
-        icon = new ImageIcon(icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH));
-        button.setIcon(icon);
     }
 }

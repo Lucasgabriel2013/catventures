@@ -8,12 +8,12 @@ public class Escolha extends JPanel {
     Main main;
 
     JLabel label = new JLabel("Escolha um gato: ", SwingConstants.CENTER);
-    JButton gato1 = new JButton("Garfield: 40 vida, 20 dano");
-    JButton gato2 = new JButton("Paçoca: 55 vida, 10 dano");
-    JButton gato3 = new JButton("Tadela: 48 vida, 15 dano");
-    JButton gato4 = new JButton("Tom: 85 vida, 6 dano");
-    JButton gato5 = new JButton("Sombra: 35 vida, 10 dano (X2 Level e moedas)");
-    JButton gato6 = new JButton("Mingau: 35 vida, 15 dano (10 vida / Batalha)");
+    JButton gato1 = Utils.newButton("Garfield: 40 vida, 20 dano");
+    JButton gato2 = Utils.newButton("Paçoca: 55 vida, 10 dano");
+    JButton gato3 = Utils.newButton("Tadela: 48 vida, 15 dano");
+    JButton gato4 = Utils.newButton("Tom: 85 vida, 6 dano");
+    JButton gato5 = Utils.newButton("Sombra: 35 vida, 10 dano (X2 Level e moedas)");
+    JButton gato6 = Utils.newButton("Mingau: 35 vida, 15 dano (5 vida / Batalha)");
     JPanel panel = new JPanel();
     ImageIcon icon1 = new ImageIcon(getClass().getResource("/personagens/gato.png"));
     ImageIcon icon2 = new ImageIcon(getClass().getResource("/personagens/gato2.png"));
@@ -32,12 +32,12 @@ public class Escolha extends JPanel {
         setBackground(new Color(100, 155, 255));
         panel.setBackground(new Color(100, 155, 255));
 
-        main.setIcon(gato1, icon1, 275, 200);
-        main.setIcon(gato2, icon2, 275, 200);
-        main.setIcon(gato3, icon3, 275, 200);
-        main.setIcon(gato4, icon4, 275, 200);
-        main.setIcon(gato5, icon5, 275, 200);
-        main.setIcon(gato6, icon6, 275, 200);
+        Utils.setIcon(gato1, icon1, 275, 200);
+        Utils.setIcon(gato2, icon2, 275, 200);
+        Utils.setIcon(gato3, icon3, 275, 200);
+        Utils.setIcon(gato4, icon4, 275, 200);
+        Utils.setIcon(gato5, icon5, 275, 200);
+        Utils.setIcon(gato6, icon6, 275, 200);
 
         gato1.setFont(new Font("Arial", Font.BOLD, 26));
         gato2.setFont(new Font("Arial", Font.BOLD, 26));

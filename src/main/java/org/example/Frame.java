@@ -12,6 +12,7 @@ public class Frame extends JFrame {
     Escolha escolha = new Escolha(this, main);
     Loja loja = new Loja(this, main);
     Arena arena = new Arena(main, this, 0);
+    TelaInicial telaInicial = new TelaInicial(this, main);
 
     CardLayout cardLayout = new CardLayout();
     Clip musicaFundo;
@@ -26,7 +27,7 @@ public class Frame extends JFrame {
         super("CatVentures");
 
         setLayout(cardLayout);
-        setSize(800, 500);
+        setMinimumSize(new Dimension(1280, 720));
 
         try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/sons/musicaFundo.wav"))) {
 
@@ -42,17 +43,19 @@ public class Frame extends JFrame {
             e.printStackTrace();
         }
 
+        add(telaInicial, "inicio");
         add(loja, "loja");
         add(arena, "mundo");
         add(escolha, "escolha");
         add(main, "main");
         add(batalha, "batalha");
 
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setUndecorated(true);
+        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(this);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        cardLayout.show(getContentPane(), "escolha");
+        cardLayout.show(getContentPane(), "inicio");
     }
 
     public void toBatalha(Batalha novaBatalha) {
@@ -77,7 +80,7 @@ public class Frame extends JFrame {
         main.gato.nome = nome;
         main.clean();
         cardLayout.show(getContentPane(), "main");
-        sound("/sons/gatoSound1.wav", 5);
+        Utils.sound("/sons/gatoSound1.wav", 6);
     }
 
     public void toArena(int scene) {
@@ -92,20 +95,5 @@ public class Frame extends JFrame {
         loja.moedas = moedas;
         loja.scene = scene;
         loja.label.setText("Moedas: " + loja.moedas);
-    }
-
-    public void sound(String recource, float addVolume) {
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(recource))) {
-
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
-
-            FloatControl volume2 = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            volume2.setValue(+addVolume);
-
-            clip.start();
-        } catch (IllegalArgumentException | LineUnavailableException | IOException | UnsupportedAudioFileException e) {
-            throw new RuntimeException(e);
-        }
     }
 }
