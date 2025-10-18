@@ -55,6 +55,7 @@ public class Main extends JPanel {
     Personagem peixeEstranho = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixeSus.png")), 65, 140, 1.5, 10, "Peixe Sus");
 
     Personagem novoRei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 100, 155, 2.0, 15, "Rei");
+    Personagem gatoRei = new Personagem(new ImageIcon(getClass().getResource("/personagens/gatoRei.png")), 80, 175, 2.0, 15, "Gato Rei");
     Personagem gatoCaca = new Personagem(new ImageIcon(getClass().getResource("/personagens/gato7.png")), 20, 25, 0.25, 3, "Caçador");
 
     Map<Integer, Mensagem> mensagemMap = Map.ofEntries(
@@ -75,7 +76,7 @@ public class Main extends JPanel {
 
             Map.entry(3, new Mensagem(
                     "Você chegou a salvo, mas os cães odeiam gatos, então, é melhor tomar cuidado",
-                    "Enfrentar um mini-cão (10 dano, 25 vida)",
+                    "Enfrentar um mini cão (10 dano, 25 vida)",
                     "Enfrentar um cachorro (20 dano, 65 vida)",
                     "Entrar no castelo", "",
                     cachorros)),
@@ -132,12 +133,16 @@ public class Main extends JPanel {
             Map.entry(10, new Mensagem(
                     "Você chegou, e o reino está sendo atacado pelos cães, e agora?",
                     "Enfrentar o novo rei dos cachorros",
-                    "",
+                    "Enfrentar o rei dos gatos",
                     "", "",
                     floresta)),
 
             Map.entry(11, new Mensagem(
                     "Você venceu, salvando seu ex-reino", "Jogar novamente", "", "", "",
+                    gatos)),
+
+            Map.entry(12, new Mensagem(
+                    "Você venceu, se juntando aos cachorros", "Jogar novamente", "", "", "",
                     gatos))
 
     );
@@ -216,6 +221,11 @@ public class Main extends JPanel {
             case 11 -> {
                 frame.cardLayout.show(frame.getContentPane(), "inicio");
                 frame.escolha.newCat(1);
+            }
+
+            case 12 -> {
+                frame.cardLayout.show(frame.getContentPane(), "inicio");
+                frame.escolha.newCat(3);
             }
 
             case 1 -> cenaAtual = 2;
@@ -297,14 +307,15 @@ public class Main extends JPanel {
 
             case 9 -> cenaAtual = 10;
 
-            case 10 -> frame.toBatalha(new Batalha(frame, this, gato, novoRei, 11, 10));
+            case 10 ->{
+                if (i == 1) {
+                    frame.toBatalha(new Batalha(frame, this, gato, novoRei, 11, 10));
+                } else if (i == 2) {
+                    frame.toBatalha(new Batalha(frame, this, gato, gatoRei, 12, 10));
+                }
+            }
         }
         setScene(cenaAtual);
-
-        if (cenaAtual == 11 || cenaAtual == 0) {
-            loja.setEnabled(false);
-            mundo.setEnabled(false);
-        }
         clean();
     }
 
@@ -330,9 +341,16 @@ public class Main extends JPanel {
         if (gato.nome.equals("Sombra") && gato.xpMulti < 2 && gato.moedasMulti < 2) {
             gato.xpMulti = 2;
             gato.moedasMulti = 2;
+        } else if (gato.nome.equals("Mini Cão") && gato.xpMulti < 3 && gato.moedasMulti < 3) {
+            gato.xpMulti = 3;
+            gato.moedasMulti = 3;
         }
         if (gato.kills >= gato.level) {
-            gato.kills = 0;
+            double i = 0;
+            if (gato.kills > gato.level) {
+                i = gato.kills - gato.level;
+            }
+            gato.kills = 0 + i;
             gato.level++;
             gato.vidaMaxima = gato.vidaMaxima + 10;
             gato.vida = gato.vida + 10;

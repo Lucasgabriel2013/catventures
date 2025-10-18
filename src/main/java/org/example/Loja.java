@@ -216,20 +216,40 @@ public class Loja extends JPanel {
             pocoes--;
             if (main.gato.vidaMaxima - 20 > main.gato.vida) {
                 i = main.gato.vida + 20;
+                main.gato.vida = i;
                 pocao.setText("Poção: 10 moedas (x%s)".formatted(pocoes));
                 main.gato.vida = i;
             } else {
                 i = main.gato.vidaMaxima - main.gato.vida;
-                main.gato.vida = i;
+                main.gato.vida = main.gato.vidaMaxima;
                 pocao.setText("Poção: 10 moedas (x%s)".formatted(pocoes));
             }
         } else {
             i = main.gato.vida;
         }
+        main.clean();
         return i;
     }
 
     void sair() {
         frame.toMain(scene);
+    }
+
+    void newSave() {
+        pocoes = 0;
+        pocao.setText("Poção: 10 moedas (x%s)".formatted(pocoes));
+        price = 75;
+        catnip.setEnabled(true);
+        catnip.setText("Catnip: 50 moedas");
+
+        level.setText("Level: %s moedas".formatted(price));
+
+        bronze.setEnabled(true);
+        prata.setEnabled(false);
+        diamante.setEnabled(false);
+
+        bronze.setText("Bronze: 30 moedas");
+        prata.setText("Prata: 75 moedas");
+        diamante.setText("Diamante: 125 moedas");
     }
 }

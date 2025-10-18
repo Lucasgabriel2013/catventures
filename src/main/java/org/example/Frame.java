@@ -74,11 +74,15 @@ public class Frame extends JFrame {
     public void toMain(int vida, int dano, ImageIcon icon, String nome) {
         main.setScene(1);
         main.gato = new Personagem(icon, dano, vida, 0, 0, "Gato");
+        loja.newSave();
+        main.moedas = 0;
+
         main.vida = vida;
         main.dano = dano;
         main.gato.level = 1;
         main.gato.kills = 0;
         main.gato.vidaMaxima = vida;
+        main.gato.nome = nome;
         main.clean();
         cardLayout.show(getContentPane(), "main");
         Utils.sound("/sons/gatoSound1.wav", 6);

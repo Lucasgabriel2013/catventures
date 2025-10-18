@@ -12,10 +12,11 @@ public class Escolha extends JPanel {
     JButton gato2 = Utils.newButton("Paçoca: 55 vida, 10 dano");
     JButton gato3 = Utils.newButton("Tadela: 48 vida, 15 dano");
     JButton gato4 = Utils.newButton("Tom: 85 vida, 6 dano");
-    JButton gato5 = Utils.newButton("Sombra: 35 vida, 10 dano (X2 Level e moedas)");
+    JButton gato5 = Utils.newButton("Sombra: 35 vida, 10 dano (x2 moedas e xp)");
     JButton gato6 = Utils.newButton("Mingau: 30 vida, 15 dano (5 vida / Batalha)");
     JButton gato7 = Utils.newButton("Caça: 30 vida, 25 dano (Especial: final 1)");
     JButton gato8 = Utils.newButton("Esqueleto: 35 vida, 18 dano (Especial: perder)");
+    JButton gato9 = Utils.newButton("Mini Cão: 25 vida, 10 dano (Especial: final 2, x3)");
     JPanel panel = new JPanel();
 
     ImageIcon icon1 = new ImageIcon(getClass().getResource("/personagens/gato.png"));
@@ -26,6 +27,7 @@ public class Escolha extends JPanel {
     ImageIcon icon6 = new ImageIcon(getClass().getResource("/personagens/gato6.png"));
     ImageIcon icon7 = new ImageIcon(getClass().getResource("/personagens/gato7.png"));
     ImageIcon icon8 = new ImageIcon(getClass().getResource("/personagens/gato8.png"));
+    ImageIcon icon9 = new ImageIcon(getClass().getResource("/personagens/miniCachorro.png"));
 
     Escolha(Frame frame, Main main) {
         setLayout(new BorderLayout());
@@ -44,6 +46,7 @@ public class Escolha extends JPanel {
         Utils.setIcon(gato6, icon6, 275, 200);
         Utils.setIcon(gato7, icon7, 275, 200);
         Utils.setIcon(gato8, icon8, 275, 200);
+        Utils.setIcon(gato9, icon9, 275, 200);
 
         gato1.setFont(new Font("Arial", Font.BOLD, 26));
         gato2.setFont(new Font("Arial", Font.BOLD, 26));
@@ -53,6 +56,7 @@ public class Escolha extends JPanel {
         gato6.setFont(new Font("Arial", Font.BOLD, 26));
         gato7.setFont(new Font("Arial", Font.BOLD, 26));
         gato8.setFont(new Font("Arial", Font.BOLD, 26));
+        gato9.setFont(new Font("Arial", Font.BOLD, 26));
 
         gato1.setBackground(new Color(208, 120, 59));
         gato2.setBackground(new Color(227, 191, 152));
@@ -61,6 +65,7 @@ public class Escolha extends JPanel {
         gato5.setBackground(new Color(37, 35, 35));
         gato6.setBackground(new Color(147, 147, 147));
         gato8.setBackground(new Color(83, 82, 82));
+        gato9.setBackground(new Color(89, 62, 33));
 
         add(label, BorderLayout.NORTH);
         label.setFont(new Font("Arial", Font.BOLD, 34));
@@ -83,6 +88,7 @@ public class Escolha extends JPanel {
         gato6.addActionListener(_ -> escolha(6));
         gato7.addActionListener(_ -> escolha(7));
         gato8.addActionListener(_ -> escolha(8));
+        gato9.addActionListener(_ -> escolha(9));
     }
 
     void escolha(int numero) {
@@ -96,15 +102,18 @@ public class Escolha extends JPanel {
 
             case 7 -> frame.toMain(30, 25, icon7, "Caça");
             case 8 -> frame.toMain(35, 18, icon8, "Esqueleto");
+            case 9 -> frame.toMain(25, 10, icon9, "Mini Cão");
         }
     }
 
     public void newCat(int i) {
-        panel.setLayout(new GridLayout(4, 2));
+        panel.setLayout(new GridLayout(3, 3));
         if (i == 1) {
             panel.add(gato7);
         } else if (i == 2) {
             panel.add(gato8);
+        } else if (i == 3) {
+            panel.add(gato9);
         }
     }
 }
