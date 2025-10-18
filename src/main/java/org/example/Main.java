@@ -55,11 +55,11 @@ public class Main extends JPanel {
     Personagem peixeEstranho = new Personagem(new ImageIcon(getClass().getResource("/personagens/peixeSus.png")), 65, 140, 1.5, 10, "Peixe Sus");
 
     Personagem novoRei = new Personagem(new ImageIcon(getClass().getResource("/personagens/reiCachorro.png")), 100, 155, 2.0, 15, "Rei");
-    Personagem gatoCaca = new Personagem(new ImageIcon(getClass().getResource("/personagens/gatoRei.png")), 20, 25, 0.25, 3, "Caçador");
+    Personagem gatoCaca = new Personagem(new ImageIcon(getClass().getResource("/personagens/gato7.png")), 20, 25, 0.25, 3, "Caçador");
 
     Map<Integer, Mensagem> mensagemMap = Map.ofEntries(
             Map.entry(0, new Mensagem(
-                    "", "", "", "", "",
+                    "Você morreu", "Jogar novamente", "", "", "",
                     gatos)),
 
             Map.entry(1, new Mensagem(
@@ -93,7 +93,7 @@ public class Main extends JPanel {
                     castelo)),
 
             Map.entry(6, new Mensagem(
-                    "Você estava no lago relaxando... Uma corrente repentina te arrasta, levando você para o fundo da água.",
+                    "Você estava no lago... Uma corrente repentina te arrasta, levando você para o fundo da água.",
                     "Desafiar um peixe (35 dano, 85 vida)",
                     "Explorar", "", "",
                     lago)),
@@ -105,7 +105,7 @@ public class Main extends JPanel {
                     lago)),
 
             Map.entry(7, new Mensagem(
-                    "No fundo do lago, você encontra uma caverna submersa iluminada por algas brilhantes.",
+                    "No fundo do lago, você encontra uma caverna submersa iluminada por algas.",
                     "Investigar a caverna",
                     "Nadar de volta à superfície",
                     "Explorar o fundo sem entrar na caverna",
@@ -122,7 +122,24 @@ public class Main extends JPanel {
                     "Você consegue avançar pela caverna e encontra uma bifurcação submersa.",
                     "Seguir pelo túnel à esquerda",
                     "Seguir pelo túnel à direita", "", "",
-                    fundo))
+                    fundo)),
+
+            Map.entry(9, new Mensagem(
+                    "Na esquerda, você achou um caminho a superfície, e o subiu, agora, estás na floresta e ouve barulhos no reino",
+                    "Ir ao reino dos gatos", "", "", "",
+                    floresta)),
+
+            Map.entry(10, new Mensagem(
+                    "Você chegou, e o reino está sendo atacado pelos cães, e agora?",
+                    "Enfrentar o novo rei dos cachorros",
+                    "",
+                    "", "",
+                    floresta)),
+
+            Map.entry(11, new Mensagem(
+                    "Você venceu, salvando seu ex-reino", "Jogar novamente", "", "", "",
+                    gatos))
+
     );
 
     Main(Frame frame) {
@@ -191,6 +208,16 @@ public class Main extends JPanel {
 
     void escolha(int i) {
         switch (cenaAtual) {
+            case 0 -> {
+                frame.cardLayout.show(frame.getContentPane(), "inicio");
+                frame.escolha.newCat(2);
+            }
+
+            case 11 -> {
+                frame.cardLayout.show(frame.getContentPane(), "inicio");
+                frame.escolha.newCat(1);
+            }
+
             case 1 -> cenaAtual = 2;
 
             case 2 -> {
@@ -258,8 +285,26 @@ public class Main extends JPanel {
             }
 
             case 7_01 -> cenaAtual = 8;
+
+            case 8 -> {
+                if (i == 1) {
+                    cenaAtual = 9;
+                } else if (i == 2) {
+                    JOptionPane.showMessageDialog(this, "Você achou um peixe estranho", "Estranho", JOptionPane.INFORMATION_MESSAGE);
+                    frame.toBatalha(new Batalha(frame, this, gato, peixeEstranho, 8, 8));
+                }
+            }
+
+            case 9 -> cenaAtual = 10;
+
+            case 10 -> frame.toBatalha(new Batalha(frame, this, gato, novoRei, 11, 10));
         }
         setScene(cenaAtual);
+
+        if (cenaAtual == 11 || cenaAtual == 0) {
+            loja.setEnabled(false);
+            mundo.setEnabled(false);
+        }
         clean();
     }
 
@@ -287,7 +332,6 @@ public class Main extends JPanel {
             gato.moedasMulti = 2;
         }
         if (gato.kills >= gato.level) {
-            JOptionPane.showMessageDialog(this, "Você upou de level");
             gato.kills = 0;
             gato.level++;
             gato.vidaMaxima = gato.vidaMaxima + 10;

@@ -37,11 +37,4 @@ public class Utils {
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
     }
-
-    public static JButton newButton(String texto, ImageIcon icon) {
-        JButton button = new JButton(texto, icon);
-        button.setVerticalTextPosition(SwingConstants.BOTTOM);
-        button.setHorizontalTextPosition(SwingConstants.CENTER);
-        return button;
-    }
 }

@@ -8,6 +8,8 @@ public class Batalha extends JPanel {
     Main main;
     JButton button = new JButton("Atacar");
     JButton button2 = new JButton("Fugir");
+    JButton button3 = new JButton("Defender");
+    JButton button4 = new JButton("Usar poção");
     JTextArea cat = new JTextArea();
     JTextArea enemy = new JTextArea();
     JTextArea textArea = new JTextArea("Seu turno");
@@ -18,7 +20,6 @@ public class Batalha extends JPanel {
     JPanel panel3 = new JPanel();
     JPanel panel4 = new JPanel(new BorderLayout());
     JProgressBar defense = new JProgressBar(0, 100);
-    JButton button3 = new JButton("Defender");
 
     Timer timer;
     Timer defenseTime;
@@ -45,8 +46,11 @@ public class Batalha extends JPanel {
 
         button3.setEnabled(false);
 
-        Utils.setIcon(button3, new ImageIcon(getClass().getResource("/shield.png")), 144, 144);
         Utils.setIcon(button2, new ImageIcon(getClass().getResource("/correr.png")), 160, 160);
+        Utils.setIcon(button3, new ImageIcon(getClass().getResource("/shield.png")), 144, 144);
+        Utils.setIcon(button4, new ImageIcon(getClass().getResource("/pocao.png")), 225, 170);
+
+        button4.setText("Usar poção: %s".formatted(frame.loja.pocoes));
 
         scene = victoryScene;
         fugir = fugirScene;
@@ -69,6 +73,7 @@ public class Batalha extends JPanel {
         button.setFont(new Font("Arial", Font.BOLD, 40));
         button2.setFont(new Font("Arial", Font.BOLD, 40));
         button3.setFont(new Font("Arial", Font.BOLD, 40));
+        button4.setFont(new Font("Arial", Font.BOLD, 40));
 
         add(panel, BorderLayout.WEST);
         ImageIcon iconCatFinal = new ImageIcon(jogador.icon.getImage().getScaledInstance(130, 100, Image.SCALE_SMOOTH));
@@ -109,14 +114,16 @@ public class Batalha extends JPanel {
         panel.add(iconLabel);
 
         panel4.add(panel3, BorderLayout.SOUTH);
-        panel3.setLayout(new GridLayout(1, 3));
+        panel3.setLayout(new GridLayout(2, 2));
         panel3.add(button);
         panel3.add(button2);
         panel3.add(button3);
+        panel3.add(button4);
 
         button.addActionListener(_ -> atacar());
         button2.addActionListener(_ -> fugir());
         button3.addActionListener(_ -> defendido = true);
+        button4.addActionListener(_ -> pocao());
     }
 
     public void arrumar() {
@@ -232,6 +239,14 @@ public class Batalha extends JPanel {
         }
     }
 
+    void pocao() {
+        vidaMinha = frame.loja.usar();
+        main.gato.vida = vidaMinha;
+        arrumar();
+        button4.setText("Usar poção: %s".formatted(frame.loja.pocoes));
+        textArea.setText("Poção usada (+20 vida), seu turno");
+    }
+
     private boolean verificar() {
         if (vidaMinha <= 0) {
             JOptionPane.showMessageDialog(null, "Você morreu");
@@ -241,8 +256,8 @@ public class Batalha extends JPanel {
             JOptionPane.showMessageDialog(null, "Você venceu");
 
             frame.toMain(scene);
-            main.gato.kills = main.gato.kills + feio.xpRecebido;
-            main.moedas = main.moedas + feio.moedasRecebidas;
+            main.gato.kills = main.gato.kills + feio.xpRecebido * gato.xpMulti;
+            main.moedas = main.moedas + feio.moedasRecebidas * gato.moedasMulti;
 
             if (gato.nome.equals("Mingau") && main.gato.vida < main.gato.vidaMaxima) {
                 if (main.gato.vida + 5 > main.gato.vidaMaxima) {
