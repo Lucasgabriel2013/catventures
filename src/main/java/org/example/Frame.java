@@ -14,8 +14,14 @@ public class Frame extends JFrame {
     Arena arena = new Arena(main, this, 0);
     TelaInicial telaInicial = new TelaInicial(this, main);
 
+    JButton sair = new JButton("Sair");
+
     CardLayout cardLayout = new CardLayout();
     Clip musicaFundo;
+
+    boolean final1 = false;
+    boolean final2 = false;
+    boolean final3 = false;
 
     static void main() throws Exception {
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
@@ -28,6 +34,8 @@ public class Frame extends JFrame {
 
         setLayout(cardLayout);
         setMinimumSize(new Dimension(1280, 720));
+
+        sair.setFont(new Font("Arial", Font.BOLD, 26));
 
         try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/sons/musicaFundo.wav"))) {
 
@@ -56,6 +64,12 @@ public class Frame extends JFrame {
         setVisible(true);
 
         cardLayout.show(getContentPane(), "inicio");
+
+        sair.addActionListener(_ -> sair());
+    }
+
+    void sair() {
+        dispose();
     }
 
     public void toBatalha(Batalha novaBatalha) {

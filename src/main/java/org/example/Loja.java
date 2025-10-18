@@ -21,6 +21,8 @@ public class Loja extends JPanel {
     JButton button = new JButton("Voltar");
     JLabel label = new JLabel("Moedas: ", SwingConstants.CENTER);
     JPanel separar = new JPanel(new GridLayout(1, 2));
+    JPanel panelTitulo1 = new JPanel(new BorderLayout());
+    JPanel panelTitulo2 = new JPanel(new BorderLayout());
     JPanel panel = new JPanel(new GridLayout(2, 2));
     JPanel panel2 = new JPanel(new GridLayout(2, 2));
     JPanel panel3 = new JPanel(new BorderLayout());
@@ -46,6 +48,8 @@ public class Loja extends JPanel {
         this.main = main;
 
         label.setText("Moedas: " + this.moedas);
+
+        Utils.setIcon(label, main.moeda, 56, 56);
 
         setLayout(new BorderLayout());
 
@@ -84,17 +88,21 @@ public class Loja extends JPanel {
         diamante.setBackground(new Color(0x288C87));
 
         add(separar, BorderLayout.CENTER);
-        separar.add(panel);
-        separar.add(panel2);
+        separar.add(panelTitulo1);
+        separar.add(panelTitulo2);
 
-        panel2.add(espadas);
+        panelTitulo1.add(panel,  BorderLayout.CENTER);
+        panelTitulo1.add(itens,  BorderLayout.NORTH);
+
+        panelTitulo2.add(panel2,  BorderLayout.CENTER);
+        panelTitulo2.add(espadas,  BorderLayout.NORTH);
+
         panel2.add(bronze);
         panel2.add(prata);
         panel2.add(diamante);
 
-        panel.add(itens);
-        panel.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-        panel2.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+        panelTitulo1.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+        panelTitulo2.setBorder(BorderFactory.createLineBorder(Color.black, 3));
         panel.add(panel3);
         panel3.add(pocao, BorderLayout.CENTER);
         panel3.add(usar, BorderLayout.SOUTH);
@@ -121,7 +129,6 @@ public class Loja extends JPanel {
 
     void compra1() {
         if (moedas >= 10) {
-            JOptionPane.showMessageDialog(this, "Compra efetuada");
             moedas = moedas - 10;
             main.moedas = main.moedas - 10;
             pocoes++;
@@ -201,7 +208,7 @@ public class Loja extends JPanel {
             moedas = moedas - price;
             main.moedas = main.moedas - price;
             price = price + 25;
-            main.gato.level++;
+            main.gato.kills = main.gato.level;
             level.setText("Level: %s moedas".formatted(price));
         } else {
             JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
@@ -251,5 +258,7 @@ public class Loja extends JPanel {
         bronze.setText("Bronze: 30 moedas");
         prata.setText("Prata: 75 moedas");
         diamante.setText("Diamante: 125 moedas");
+
+        main.mundo.setEnabled(false);
     }
 }

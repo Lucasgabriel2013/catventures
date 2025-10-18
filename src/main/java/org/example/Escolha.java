@@ -1,5 +1,7 @@
 package org.example;
 
+import com.sun.source.tree.CaseTree;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -8,16 +10,30 @@ public class Escolha extends JPanel {
     Main main;
 
     JLabel label = new JLabel("Escolha um gato: ", SwingConstants.CENTER);
-    JButton gato1 = Utils.newButton("Garfield: 40 vida, 20 dano");
-    JButton gato2 = Utils.newButton("Paçoca: 55 vida, 10 dano");
-    JButton gato3 = Utils.newButton("Tadela: 48 vida, 15 dano");
-    JButton gato4 = Utils.newButton("Tom: 85 vida, 6 dano");
-    JButton gato5 = Utils.newButton("Sombra: 35 vida, 10 dano (x2 moedas e xp)");
-    JButton gato6 = Utils.newButton("Mingau: 30 vida, 15 dano (5 vida / Batalha)");
-    JButton gato7 = Utils.newButton("Caça: 30 vida, 25 dano (Especial: final 1)");
-    JButton gato8 = Utils.newButton("Esqueleto: 35 vida, 18 dano (Especial: perder)");
-    JButton gato9 = Utils.newButton("Mini Cão: 25 vida, 10 dano (Especial: final 2, x3)");
-    JPanel panel = new JPanel();
+    JButton gato1 = Utils.newButton("");
+    JButton gato2 = Utils.newButton("");
+    JButton gato3 = Utils.newButton("");
+    JButton gato4 = Utils.newButton("");
+    JButton gato5 = Utils.newButton("");
+    JButton gato6 = Utils.newButton("");
+    JButton gato7 = Utils.newButton("");
+    JButton gato8 = Utils.newButton("");
+    JButton gato9 = Utils.newButton("");
+    JPanel panel = new JPanel(new GridLayout(1, 2));
+    JPanel panel2 = new JPanel(new GridLayout(3, 1));
+    JPanel panel3 = new JPanel(new GridLayout(3, 1));
+
+    JButton escolher = new JButton("Escolher");
+    JButton direita = new JButton();
+    JButton esquerda = new JButton();
+    JTextField nome = new JTextField();
+    JLabel vida = new JLabel();
+    JLabel dano = new JLabel();
+    JTextArea descricao = new JTextArea();
+    CardLayout cardLayout = new CardLayout();
+    JPanel cardPanel = new JPanel(cardLayout);
+    JPanel atr = new JPanel(new GridLayout(3, 1));
+    JPanel separar = new JPanel(new GridLayout(1, 2));
 
     ImageIcon icon1 = new ImageIcon(getClass().getResource("/personagens/gato.png"));
     ImageIcon icon2 = new ImageIcon(getClass().getResource("/personagens/gato2.png"));
@@ -29,24 +45,39 @@ public class Escolha extends JPanel {
     ImageIcon icon8 = new ImageIcon(getClass().getResource("/personagens/gato8.png"));
     ImageIcon icon9 = new ImageIcon(getClass().getResource("/personagens/miniCachorro.png"));
 
+    int gatoAtual = 0;
+    int quantiaGatos = 5;
+
     Escolha(Frame frame, Main main) {
         setLayout(new BorderLayout());
+
+        setDescricao();
 
         this.main = main;
         this.frame = frame;
 
+        Utils.setIcon(direita, new ImageIcon(getClass().getResource("/seta2.png")), 75, 75);
+        Utils.setIcon(esquerda, new ImageIcon(getClass().getResource("/seta3.png")), 75, 75);
+
         setBackground(new Color(100, 155, 255));
         panel.setBackground(new Color(100, 155, 255));
 
-        Utils.setIcon(gato1, icon1, 275, 200);
-        Utils.setIcon(gato2, icon2, 275, 200);
-        Utils.setIcon(gato3, icon3, 275, 200);
-        Utils.setIcon(gato4, icon4, 275, 200);
-        Utils.setIcon(gato5, icon5, 275, 200);
-        Utils.setIcon(gato6, icon6, 275, 200);
-        Utils.setIcon(gato7, icon7, 275, 200);
-        Utils.setIcon(gato8, icon8, 275, 200);
-        Utils.setIcon(gato9, icon9, 275, 200);
+        Utils.setIcon(vida, new ImageIcon(getClass().getResource("/coracao.png")), 150, 150);
+        Utils.setIcon(dano, new ImageIcon(getClass().getResource("/espada.png")), 150, 150);
+
+        vida.setHorizontalAlignment(SwingConstants.CENTER);
+        dano.setHorizontalAlignment(SwingConstants.CENTER);
+        nome.setHorizontalAlignment(SwingConstants.CENTER);
+
+        Utils.setIcon(gato1, icon1, 800, 550);
+        Utils.setIcon(gato2, icon2, 800, 550);
+        Utils.setIcon(gato3, icon3, 800, 550);
+        Utils.setIcon(gato4, icon4, 800, 550);
+        Utils.setIcon(gato5, icon5, 800, 550);
+        Utils.setIcon(gato6, icon6, 800, 550);
+        Utils.setIcon(gato7, icon7, 800, 550);
+        Utils.setIcon(gato8, icon8,  800, 550);
+        Utils.setIcon(gato9, icon9, 800, 550);
 
         gato1.setFont(new Font("Arial", Font.BOLD, 26));
         gato2.setFont(new Font("Arial", Font.BOLD, 26));
@@ -57,63 +88,195 @@ public class Escolha extends JPanel {
         gato7.setFont(new Font("Arial", Font.BOLD, 26));
         gato8.setFont(new Font("Arial", Font.BOLD, 26));
         gato9.setFont(new Font("Arial", Font.BOLD, 26));
+        escolher.setFont(new Font("Arial", Font.BOLD, 36));
+        direita.setFont(new Font("Arial", Font.BOLD, 46));
+        esquerda.setFont(new Font("Arial", Font.BOLD, 46));
+        nome.setFont(new Font("Arial", Font.BOLD, 75));
+        vida.setFont(new Font("Arial", Font.BOLD, 36));
+        dano.setFont(new Font("Arial", Font.BOLD, 36));
+        descricao.setFont(new Font("Arial", Font.BOLD, 36));
+
+        nome.setEditable(false);
+        descricao.setEditable(false);
 
         gato1.setBackground(new Color(208, 120, 59));
         gato2.setBackground(new Color(227, 191, 152));
         gato3.setBackground(new Color(140, 70, 0));
         gato4.setBackground(new Color(107, 107, 107));
         gato5.setBackground(new Color(37, 35, 35));
-        gato6.setBackground(new Color(147, 147, 147));
+        gato6.setBackground(new Color(193, 193, 193));
         gato8.setBackground(new Color(83, 82, 82));
         gato9.setBackground(new Color(89, 62, 33));
+
+        esquerda.setBackground(new Color(100, 155, 255));
+        direita.setBackground(new Color(100, 155, 255));
+        escolher.setBackground(new Color(205, 175, 42));
 
         add(label, BorderLayout.NORTH);
         label.setFont(new Font("Arial", Font.BOLD, 34));
 
+        descricao.setLineWrap(true);
+        descricao.setWrapStyleWord(true);
+
         add(panel, BorderLayout.CENTER);
-        panel.setLayout(new GridLayout(3, 2));
 
-        panel.add(gato1);
-        panel.add(gato2);
-        panel.add(gato3);
-        panel.add(gato4);
-        panel.add(gato5);
-        panel.add(gato6);
+        panel.add(cardPanel);
+        panel.add(atr);
+        atr.add(nome);
 
-        gato1.addActionListener(_ -> escolha(1));
-        gato2.addActionListener(_ -> escolha(2));
-        gato3.addActionListener(_ -> escolha(3));
-        gato4.addActionListener(_ -> escolha(4));
-        gato5.addActionListener(_ -> escolha(5));
-        gato6.addActionListener(_ -> escolha(6));
-        gato7.addActionListener(_ -> escolha(7));
-        gato8.addActionListener(_ -> escolha(8));
-        gato9.addActionListener(_ -> escolha(9));
+        atr.add(separar);
+        separar.add(vida);
+        separar.add(dano);
+
+        atr.add(descricao);
+
+        cardPanel.add(gato1, "gato 0");
+        cardPanel.add(gato2, "gato 1");
+        cardPanel.add(gato3, "gato 2");
+        cardPanel.add(gato4, "gato 3");
+        cardPanel.add(gato5, "gato 4");
+        cardPanel.add(gato6, "gato 5");
+        cardPanel.add(gato7, "gato 6");
+        cardPanel.add(gato8, "gato 7");
+        cardPanel.add(gato9, "gato 8");
+
+        add(escolher, BorderLayout.SOUTH);
+
+        add(panel2, BorderLayout.EAST);
+        panel2.add(new JPanel());
+        panel2.add(direita);
+
+        add(panel3, BorderLayout.WEST);
+        panel3.add(new JPanel());
+        panel3.add(esquerda);
+
+        escolher.addActionListener(_ -> escolha(gatoAtual));
+        esquerda.addActionListener(_ -> esquerda());
+        direita.addActionListener(_ -> direita());
     }
 
     void escolha(int numero) {
         switch (numero) {
-            case 1 -> frame.toMain(40, 20, icon1, "Garfield");
-            case 2 -> frame.toMain(55, 10, icon2, "Paçoca");
-            case 3 -> frame.toMain(48, 15, icon3, "Tadela");
-            case 4 -> frame.toMain(85, 6, icon4, "Tom");
-            case 5 -> frame.toMain(35, 10, icon5, "Sombra");
-            case 6 -> frame.toMain(30, 15, icon6, "Mingau");
+            case 0 -> frame.toMain(40, 20, icon1, "Garfield");
+            case 1 -> frame.toMain(55, 10, icon2, "Paçoca");
+            case 2 -> frame.toMain(48, 15, icon3, "Tadela");
+            case 3 -> frame.toMain(85, 6, icon4, "Tom");
+            case 4 -> frame.toMain(35, 10, icon5, "Sombra");
+            case 5 -> frame.toMain(30, 15, icon6, "Mingau");
 
-            case 7 -> frame.toMain(30, 25, icon7, "Caça");
-            case 8 -> frame.toMain(35, 18, icon8, "Esqueleto");
-            case 9 -> frame.toMain(25, 10, icon9, "Mini Cão");
+            case 6 -> frame.toMain(30, 25, icon7, "Caçador");
+            case 7 -> frame.toMain(35, 18, icon8, "Esqueleto");
+            case 8 -> frame.toMain(25, 10, icon9, "Mini Cão");
         }
     }
 
-    public void newCat(int i) {
-        panel.setLayout(new GridLayout(3, 3));
-        if (i == 1) {
-            panel.add(gato7);
-        } else if (i == 2) {
-            panel.add(gato8);
-        } else if (i == 3) {
-            panel.add(gato9);
+    public void esquerda() {
+        if (gatoAtual != 0) {
+            gatoAtual--;
+            cardLayout.show(cardPanel, "gato " + gatoAtual);
+            setDescricao();
+        }
+    }
+
+    public void direita() {
+        if (gatoAtual != quantiaGatos) {
+            gatoAtual++;
+            cardLayout.show(cardPanel, "gato " + gatoAtual);
+            setDescricao();
+        }
+    }
+
+    public void setDescricao() {
+        switch (gatoAtual) {
+            case 0 -> {
+                nome.setText("Garfield");
+                vida.setText("40");
+                dano.setText("20");
+                descricao.setText("Um gato laranja, sem nada especial, só com fome");
+            }
+
+            case 1 -> {
+                nome.setText("Paçoca");
+                vida.setText("55");
+                dano.setText("10");
+                descricao.setText("Um gato lindo, mas normal");
+            }
+
+            case 2 -> {
+                nome.setText("Tadela");
+                vida.setText("48");
+                dano.setText("15");
+                descricao.setText("Tadelinha fofa e equilibrada, mas não no sono");
+            }
+
+            case 3 -> {
+                nome.setText("Tom");
+                vida.setText("85");
+                dano.setText("6");
+                descricao.setText("Tom caça Jerry, e por isso, é muito resistente");
+            }
+
+            case 4 -> {
+                nome.setText("Sombra");
+                vida.setText("35");
+                dano.setText("10");
+                descricao.setText("Sombra, ganha x2 mais xps e moedas");
+            }
+
+            case 5 -> {
+                nome.setText("Mingau");
+                vida.setText("30");
+                dano.setText("15");
+                descricao.setText("É da magali, tem 5 de regeneração");
+            }
+
+            case 6 -> {
+                if (frame.final1) {
+                    nome.setText("Caçador");
+                    vida.setText("30");
+                    dano.setText("25");
+                    descricao.setText("Caça gatos que fogem, existem vários (final 1)");
+                    cardLayout.show(cardPanel, "gato 6");
+                } else if (frame.final2) {
+                    nome.setText("Esqueleto");
+                    vida.setText("35");
+                    dano.setText("18");
+                    descricao.setText("Será que tá bem? (final 2)");
+                    cardLayout.show(cardPanel, "gato 7");
+                } else if (frame.final3) {
+                    nome.setText("Mini Cão");
+                    vida.setText("25");
+                    dano.setText("10");
+                    descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
+                    cardLayout.show(cardPanel, "gato 8");
+                }
+            }
+
+            case 7 -> {
+                if (frame.final2) {
+                    nome.setText("Esqueleto");
+                    vida.setText("35");
+                    dano.setText("18");
+                    descricao.setText("Será que tá bem? (final 2)");
+                    cardLayout.show(cardPanel, "gato 7");
+                } else if (frame.final3) {
+                    nome.setText("Mini Cão");
+                    vida.setText("25");
+                    dano.setText("10");
+                    descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
+                    cardLayout.show(cardPanel, "gato 8");
+                }
+            }
+
+            case 8 -> {
+                if (frame.final3) {
+                    nome.setText("Mini Cão");
+                    vida.setText("25");
+                    dano.setText("10");
+                    descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
+                    cardLayout.show(cardPanel, "gato 8");
+                }
+            }
         }
     }
 }
