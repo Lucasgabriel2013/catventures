@@ -173,58 +173,62 @@ public class Escolha extends JPanel {
     public void esquerda() {
         if (gatoAtual != 0) {
             gatoAtual--;
-            cardLayout.show(cardPanel, "gato " + gatoAtual);
-            setDescricao();
+        } else {
+            gatoAtual = quantiaGatos;
         }
+        cardLayout.show(cardPanel, "gato " + gatoAtual);
+        setDescricao();
     }
 
     public void direita() {
         if (gatoAtual != quantiaGatos) {
             gatoAtual++;
-            cardLayout.show(cardPanel, "gato " + gatoAtual);
-            setDescricao();
+        } else {
+            gatoAtual = 0;
         }
+        setDescricao();
+        cardLayout.show(cardPanel, "gato " + gatoAtual);
     }
 
     public void setDescricao() {
         switch (gatoAtual) {
             case 0 -> {
-                nome.setText("Garfield");
+                nome.setText("GARFIELD");
                 vida.setText("40");
                 dano.setText("20");
                 descricao.setText("Um gato laranja, sem nada especial, só com fome");
             }
 
             case 1 -> {
-                nome.setText("Paçoca");
+                nome.setText("PAÇOCA");
                 vida.setText("55");
                 dano.setText("10");
                 descricao.setText("Um gato lindo, mas normal");
             }
 
             case 2 -> {
-                nome.setText("Tadela");
+                nome.setText("TADELA");
                 vida.setText("48");
                 dano.setText("15");
                 descricao.setText("Tadelinha fofa e equilibrada, mas não no sono");
             }
 
             case 3 -> {
-                nome.setText("Tom");
+                nome.setText("TOM");
                 vida.setText("85");
                 dano.setText("6");
                 descricao.setText("Tom caça Jerry, e por isso, é muito resistente");
             }
 
             case 4 -> {
-                nome.setText("Sombra");
+                nome.setText("SOMBRA");
                 vida.setText("35");
                 dano.setText("10");
                 descricao.setText("Sombra, ganha x2 mais xps e moedas");
             }
 
             case 5 -> {
-                nome.setText("Mingau");
+                nome.setText("MINGAU");
                 vida.setText("30");
                 dano.setText("15");
                 descricao.setText("É da magali, tem 5 de regeneração");
@@ -232,19 +236,19 @@ public class Escolha extends JPanel {
 
             case 6 -> {
                 if (frame.final1) {
-                    nome.setText("Caçador");
+                    nome.setText("CAÇADOR");
                     vida.setText("30");
                     dano.setText("25");
                     descricao.setText("Caça gatos que fogem, existem vários (final 1)");
                     cardLayout.show(cardPanel, "gato 6");
                 } else if (frame.final2) {
-                    nome.setText("Esqueleto");
+                    nome.setText("ESQUELETO");
                     vida.setText("35");
                     dano.setText("18");
                     descricao.setText("Será que tá bem? (final 2)");
                     cardLayout.show(cardPanel, "gato 7");
                 } else if (frame.final3) {
-                    nome.setText("Mini Cão");
+                    nome.setText("MINI CÃO");
                     vida.setText("25");
                     dano.setText("10");
                     descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
@@ -254,13 +258,13 @@ public class Escolha extends JPanel {
 
             case 7 -> {
                 if (frame.final2) {
-                    nome.setText("Esqueleto");
+                    nome.setText("ESQUELETO");
                     vida.setText("35");
                     dano.setText("18");
                     descricao.setText("Será que tá bem? (final 2)");
                     cardLayout.show(cardPanel, "gato 7");
                 } else if (frame.final3) {
-                    nome.setText("Mini Cão");
+                    nome.setText("MINI CÃO");
                     vida.setText("25");
                     dano.setText("10");
                     descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
@@ -270,7 +274,7 @@ public class Escolha extends JPanel {
 
             case 8 -> {
                 if (frame.final3) {
-                    nome.setText("Mini Cão");
+                    nome.setText("MINI CÃO");
                     vida.setText("25");
                     dano.setText("10");
                     descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");

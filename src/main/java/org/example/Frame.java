@@ -13,11 +13,13 @@ public class Frame extends JFrame {
     Loja loja = new Loja(this, main);
     Arena arena = new Arena(main, this, 0);
     TelaInicial telaInicial = new TelaInicial(this, main);
+    Historia historia = new Historia(this);
 
     JButton sair = new JButton("Sair");
 
     CardLayout cardLayout = new CardLayout();
     Clip musicaFundo;
+    Clip musicaBatalha;
 
     boolean final1 = false;
     boolean final2 = false;
@@ -45,7 +47,21 @@ public class Frame extends JFrame {
             musicaFundo.start();
 
             FloatControl volume = (FloatControl) musicaFundo.getControl(FloatControl.Type.MASTER_GAIN);
-            volume.setValue(-5.0f);
+            volume.setValue(-6.0f);
+
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            e.printStackTrace();
+        }
+
+        try (AudioInputStream audioIn2 = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/sons/battleMusic.wav"))) {
+
+            musicaBatalha = AudioSystem.getClip();
+            musicaBatalha.open(audioIn2);
+            musicaBatalha.loop(Clip.LOOP_CONTINUOUSLY);
+            musicaBatalha.stop();
+
+            FloatControl volume = (FloatControl) musicaFundo.getControl(FloatControl.Type.MASTER_GAIN);
+            volume.setValue(-6.0f);
 
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
             e.printStackTrace();
@@ -57,6 +73,7 @@ public class Frame extends JFrame {
         add(escolha, "escolha");
         add(main, "main");
         add(batalha, "batalha");
+        add(historia, "historia");
 
         setUndecorated(true);
         GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(this);
@@ -77,12 +94,16 @@ public class Frame extends JFrame {
         batalha = novaBatalha;
         add(batalha, "batalha");
         cardLayout.show(getContentPane(), "batalha");
+        musicaFundo.stop();
+        musicaBatalha.start();
     }
 
     public void toMain(int scene) {
         cardLayout.show(getContentPane(), "main");
         main.setScene(scene);
         main.clean();
+        musicaBatalha.stop();
+        musicaFundo.start();
     }
 
     public void toMain(int vida, int dano, ImageIcon icon, String nome) {
@@ -114,5 +135,9 @@ public class Frame extends JFrame {
         loja.moedas = moedas;
         loja.scene = scene;
         loja.label.setText("Moedas: " + loja.moedas);
+    }
+
+    public void toHistoria() {
+        cardLayout.show(getContentPane(), "historia");
     }
 }

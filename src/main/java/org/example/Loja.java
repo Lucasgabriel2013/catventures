@@ -132,8 +132,6 @@ public class Loja extends JPanel {
             moedas = moedas - 10;
             main.moedas = main.moedas - 10;
             pocoes++;
-        } else {
-            JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
         }
         main.clean();
         label.setText("Moedas: " + this.moedas);
@@ -150,8 +148,6 @@ public class Loja extends JPanel {
                     bronze.setEnabled(false);
                     bronze.setText("Compra já feita");
                     prata.setEnabled(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
                 }
                 main.clean();
                 label.setText("Moedas: " + this.moedas);
@@ -165,8 +161,6 @@ public class Loja extends JPanel {
                     prata.setEnabled(false);
                     prata.setText("Compra já feita");
                     diamante.setEnabled(true);
-                } else {
-                    JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
                 }
                 main.clean();
                 label.setText("Moedas: " + this.moedas);
@@ -179,8 +173,6 @@ public class Loja extends JPanel {
                     main.gato.dano = main.gato.dano + 30;
                     diamante.setEnabled(false);
                     diamante.setText("Compra já feita");
-                } else {
-                    JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
                 }
                 main.clean();
                 label.setText("Moedas: " + this.moedas);
@@ -196,8 +188,6 @@ public class Loja extends JPanel {
             main.gato.xpMulti = main.gato.xpMulti * 3;
             catnip.setEnabled(false);
             catnip.setText("Compra já feita");
-        } else {
-            JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
         }
         main.clean();
         label.setText("Moedas: " + this.moedas);
@@ -210,8 +200,6 @@ public class Loja extends JPanel {
             price = price + 25;
             main.gato.kills = main.gato.level;
             level.setText("Level: %s moedas".formatted(price));
-        } else {
-            JOptionPane.showMessageDialog(this, "Você não tem moedas suficientes");
         }
         main.clean();
         label.setText("Moedas: " + this.moedas);

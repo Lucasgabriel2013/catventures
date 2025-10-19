@@ -41,7 +41,16 @@ public class TelaInicial extends JPanel {
         Utils.setIcon(foto, new ImageIcon(getClass().getResource("/fundos/telaInicial.png")), 2000, 1200);
 
         jogar.addActionListener(_ -> frame.cardLayout.show(frame.getContentPane(), "escolha"));
-        creditos.addActionListener(_ -> JOptionPane.showMessageDialog(this, "Criado por Lucas Gabriel Reiter - CatVentures Inc © v1.4", "Créditos", JOptionPane.INFORMATION_MESSAGE));
+        creditos.addActionListener(_ -> creditos());
         sair.addActionListener(_ -> frame.dispose());
+    }
+
+    void creditos() {
+        frame.toHistoria();
+        frame.historia.cutscene( 1000, 1000,
+                new Cena("CRÉDITOS:", frame.main.gatos),
+                new Cena("CatVentures", frame.main.floresta),
+                new Cena("Desenvolvido por:", frame.main.lago),
+                new Cena("Lucas Gabriel Reiter", frame.main.cachorros));
     }
 }

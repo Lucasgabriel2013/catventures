@@ -39,6 +39,7 @@ public class Main extends JPanel {
     ImageIcon lago = new ImageIcon(getClass().getResource("/fundos/fundo4.png"));
     ImageIcon fundo = new ImageIcon(getClass().getResource("/fundos/fundo5.png"));
     ImageIcon gatos = new ImageIcon(getClass().getResource("/fundos/fundo6.png"));
+    ImageIcon casteloQuebrado = new ImageIcon(getClass().getResource("/fundos/casteloQuebrando.png"));
 
     int vida;
     int dano;
@@ -161,6 +162,9 @@ public class Main extends JPanel {
 
     Main(Frame frame) {
         gato.level = 1;
+        rei.boss = true;
+        novoRei.boss = true;
+        gatoRei.boss = true;
 
         this.frame = frame;
 
@@ -265,22 +269,31 @@ public class Main extends JPanel {
                 }
             }
 
-            case 1 -> cenaAtual = 2;
+            case 1 -> {
+                frame.toHistoria();
+                frame.historia.cutscene( 2, 2000,
+                        new Cena("Você queria fugir de seu reino, mas não sabia como", gatos),
+                        new Cena("Até que achastes uma janela, e a quebrou", casteloQuebrado),
+                        new Cena("Pulastes a janela, e saístes correndo pela floresta", floresta));
+                cenaAtual = 2;
+            }
 
             case 2 -> {
                 if (i == 1) {
                     cenaAtual = 3;
                 } else if (i == 2) {
-                    JOptionPane.showMessageDialog(this, "A floresta foi o lugar mais procurado pelos caçadores", "Você foi pego", JOptionPane.INFORMATION_MESSAGE);
-                    frame.toBatalha(new Batalha(frame, this, gato, gatoCaca, 3, 3));
+                    frame.toHistoria();
+                    frame.historia.cutscene( 1002, 750,
+                            new Cena("Você continuo na floresta, mas tinha vários caçadores", floresta),
+                            new Cena("Então, tu foste pego", gatoCaca.icon));
                 }
             }
 
             case 3 -> {
                 if (i == 1) {
-                    frame.toBatalha(new Batalha(frame, this, gato, mini, 3, 3));
+                    frame.toBatalha(new Batalha(frame, this, gato, mini, 3, 3, ""));
                 } else if (i == 2) {
-                    frame.toBatalha(new Batalha(frame, this, gato, cachorro, 3, 3));
+                    frame.toBatalha(new Batalha(frame, this, gato, cachorro, 3, 3, ""));
                 } else if (i == 3) {
                     cenaAtual = 4;
                 }
@@ -288,7 +301,10 @@ public class Main extends JPanel {
 
             case 4 -> {
                 if (i == 1) {
-                    frame.toBatalha(new Batalha(frame, this, gato, rei, 5, 4));
+                    frame.toHistoria();
+                    frame.historia.cutscene( 1003, 2000,
+                            new Cena("Você desafiou o rei, e ele riu de você", gato.icon),
+                            new Cena("Então, vocês se batalharão", rei.icon));
                 } else if (i == 2) {
                     cenaAtual = 2;
                 }
@@ -298,14 +314,13 @@ public class Main extends JPanel {
                 if (i == 1) {
                     cenaAtual = 6;
                 } else if (i == 2) {
-                    JOptionPane.showMessageDialog(this, "Ainda há caçadores");
-                    frame.toBatalha(new Batalha(frame, this, gato, gatoCaca, 6, 5));
+                    frame.toBatalha(new Batalha(frame, this, gato, gatoCaca, 6, 5, "Ainda há caçadores"));
                 }
             }
 
             case 6 -> {
                 if (i == 1) {
-                    frame.toBatalha(new Batalha(frame, this, gato, peixe, 6, 6));
+                    frame.toBatalha(new Batalha(frame, this, gato, peixe, 6, 6, ""));
                 } else if (i == 2) {
                     cenaAtual = 7;
                     mundo.setEnabled(true);
@@ -314,7 +329,7 @@ public class Main extends JPanel {
 
             case 6_01 -> {
                 if (i == 1) {
-                    frame.toBatalha(new Batalha(frame, this, gato, peixe, 601, 601));
+                    frame.toBatalha(new Batalha(frame, this, gato, peixe, 601, 601, ""));
                 } else if (i == 2) {
                     cenaAtual = 7;
                 }
@@ -336,8 +351,10 @@ public class Main extends JPanel {
                 if (i == 1) {
                     cenaAtual = 9;
                 } else if (i == 2) {
-                    JOptionPane.showMessageDialog(this, "Você achou um peixe estranho", "Estranho", JOptionPane.INFORMATION_MESSAGE);
-                    frame.toBatalha(new Batalha(frame, this, gato, peixeEstranho, 8, 8));
+                    frame.toHistoria();
+                    frame.historia.cutscene( 1001, 750,
+                            new Cena("Você seguiu o caminho a esquerda...", fundo),
+                            new Cena("E achou um peixe estranho", peixeEstranho.icon));
                 }
             }
 
@@ -351,9 +368,9 @@ public class Main extends JPanel {
 
             case 10 ->{
                 if (i == 1) {
-                    frame.toBatalha(new Batalha(frame, this, gato, novoRei, 11, 10));
+                    frame.toBatalha(new Batalha(frame, this, gato, novoRei, 11, 10, ""));
                 } else if (i == 2) {
-                    frame.toBatalha(new Batalha(frame, this, gato, gatoRei, 12, 10));
+                    frame.toBatalha(new Batalha(frame, this, gato, gatoRei, 12, 10, ""));
                 }
             }
         }

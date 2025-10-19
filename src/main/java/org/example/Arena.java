@@ -60,11 +60,11 @@ public class Arena extends JPanel {
 
     void batalha(int i) {
         switch (i) {
-            case 1 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.cachorro, scene, scene));
-            case 2 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.mini, scene, scene));
-            case 3 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.rei, scene, scene));
-            case 4 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.peixe, scene, scene));
-            case 5 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.peixeEstranho, scene, scene));
+            case 1 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.cachorro, scene, scene, ""));
+            case 2 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.mini, scene, scene, ""));
+            case 3 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.rei, scene, scene, ""));
+            case 4 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.peixe, scene, scene, ""));
+            case 5 -> frame.toBatalha(new Batalha(frame, main, main.gato, main.peixeEstranho, scene, scene, ""));
         }
     }
 }

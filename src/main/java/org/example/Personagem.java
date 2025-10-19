@@ -17,6 +17,8 @@ public class Personagem {
     double xpRecebido;
     int moedasRecebidas;
 
+    boolean boss;
+
     public Personagem(ImageIcon icon, int dano, int vida, double xp, int moedas, String nome) {
         this.icon = icon;
         this.dano = dano;
