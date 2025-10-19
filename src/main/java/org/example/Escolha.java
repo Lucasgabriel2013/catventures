@@ -1,7 +1,5 @@
 package org.example;
 
-import com.sun.source.tree.CaseTree;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -10,6 +8,7 @@ public class Escolha extends JPanel {
     Main main;
 
     JLabel label = new JLabel("Escolha um gato: ", SwingConstants.CENTER);
+    JButton gato0 = Utils.newButton("");
     JButton gato1 = Utils.newButton("");
     JButton gato2 = Utils.newButton("");
     JButton gato3 = Utils.newButton("");
@@ -17,7 +16,6 @@ public class Escolha extends JPanel {
     JButton gato5 = Utils.newButton("");
     JButton gato6 = Utils.newButton("");
     JButton gato7 = Utils.newButton("");
-    JButton gato8 = Utils.newButton("");
     JButton gato9 = Utils.newButton("");
     JPanel panel = new JPanel(new GridLayout(1, 2));
     JPanel panel2 = new JPanel(new GridLayout(3, 1));
@@ -69,16 +67,17 @@ public class Escolha extends JPanel {
         dano.setHorizontalAlignment(SwingConstants.CENTER);
         nome.setHorizontalAlignment(SwingConstants.CENTER);
 
-        Utils.setIcon(gato1, icon1, 800, 550);
-        Utils.setIcon(gato2, icon2, 800, 550);
-        Utils.setIcon(gato3, icon3, 800, 550);
-        Utils.setIcon(gato4, icon4, 800, 550);
-        Utils.setIcon(gato5, icon5, 800, 550);
-        Utils.setIcon(gato6, icon6, 800, 550);
-        Utils.setIcon(gato7, icon7, 800, 550);
-        Utils.setIcon(gato8, icon8,  800, 550);
+        Utils.setIcon(gato0, icon1, 800, 550);
+        Utils.setIcon(gato1, icon2, 800, 550);
+        Utils.setIcon(gato2, icon3, 800, 550);
+        Utils.setIcon(gato3, icon4, 800, 550);
+        Utils.setIcon(gato4, icon5, 800, 550);
+        Utils.setIcon(gato5, icon6, 800, 550);
+        Utils.setIcon(gato6, icon7, 800, 550);
+        Utils.setIcon(gato7, icon8,  800, 550);
         Utils.setIcon(gato9, icon9, 800, 550);
 
+        gato0.setFont(new Font("Arial", Font.BOLD, 26));
         gato1.setFont(new Font("Arial", Font.BOLD, 26));
         gato2.setFont(new Font("Arial", Font.BOLD, 26));
         gato3.setFont(new Font("Arial", Font.BOLD, 26));
@@ -86,7 +85,6 @@ public class Escolha extends JPanel {
         gato5.setFont(new Font("Arial", Font.BOLD, 26));
         gato6.setFont(new Font("Arial", Font.BOLD, 26));
         gato7.setFont(new Font("Arial", Font.BOLD, 26));
-        gato8.setFont(new Font("Arial", Font.BOLD, 26));
         gato9.setFont(new Font("Arial", Font.BOLD, 26));
         escolher.setFont(new Font("Arial", Font.BOLD, 36));
         direita.setFont(new Font("Arial", Font.BOLD, 46));
@@ -99,13 +97,13 @@ public class Escolha extends JPanel {
         nome.setEditable(false);
         descricao.setEditable(false);
 
-        gato1.setBackground(new Color(208, 120, 59));
-        gato2.setBackground(new Color(227, 191, 152));
-        gato3.setBackground(new Color(140, 70, 0));
-        gato4.setBackground(new Color(107, 107, 107));
-        gato5.setBackground(new Color(37, 35, 35));
-        gato6.setBackground(new Color(193, 193, 193));
-        gato8.setBackground(new Color(83, 82, 82));
+        gato0.setBackground(new Color(208, 120, 59));
+        gato1.setBackground(new Color(227, 191, 152));
+        gato2.setBackground(new Color(140, 70, 0));
+        gato3.setBackground(new Color(107, 107, 107));
+        gato4.setBackground(new Color(37, 35, 35));
+        gato5.setBackground(new Color(193, 193, 193));
+        gato7.setBackground(new Color(83, 82, 82));
         gato9.setBackground(new Color(89, 62, 33));
 
         esquerda.setBackground(new Color(100, 155, 255));
@@ -130,15 +128,12 @@ public class Escolha extends JPanel {
 
         atr.add(descricao);
 
-        cardPanel.add(gato1, "gato 0");
-        cardPanel.add(gato2, "gato 1");
-        cardPanel.add(gato3, "gato 2");
-        cardPanel.add(gato4, "gato 3");
-        cardPanel.add(gato5, "gato 4");
-        cardPanel.add(gato6, "gato 5");
-        cardPanel.add(gato7, "gato 6");
-        cardPanel.add(gato8, "gato 7");
-        cardPanel.add(gato9, "gato 8");
+        cardPanel.add(gato0, "gato 0");
+        cardPanel.add(gato1, "gato 1");
+        cardPanel.add(gato2, "gato 2");
+        cardPanel.add(gato3, "gato 3");
+        cardPanel.add(gato4, "gato 4");
+        cardPanel.add(gato5, "gato 5");
 
         add(escolher, BorderLayout.SOUTH);
 
@@ -240,18 +235,24 @@ public class Escolha extends JPanel {
                     vida.setText("30");
                     dano.setText("25");
                     descricao.setText("Caça gatos que fogem, existem vários (final 1)");
+
+                    cardPanel.add(gato6, "gato 6");
                     cardLayout.show(cardPanel, "gato 6");
                 } else if (frame.final2) {
                     nome.setText("ESQUELETO");
                     vida.setText("35");
                     dano.setText("18");
                     descricao.setText("Será que tá bem? (final 2)");
+
+                    cardPanel.add(gato7, "gato 7");
                     cardLayout.show(cardPanel, "gato 7");
                 } else if (frame.final3) {
                     nome.setText("MINI CÃO");
                     vida.setText("25");
                     dano.setText("10");
                     descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
+
+                    cardPanel.add(gato9, "gato 8");
                     cardLayout.show(cardPanel, "gato 8");
                 }
             }
@@ -262,12 +263,16 @@ public class Escolha extends JPanel {
                     vida.setText("35");
                     dano.setText("18");
                     descricao.setText("Será que tá bem? (final 2)");
+
+                    cardPanel.add(gato7, "gato 7");
                     cardLayout.show(cardPanel, "gato 7");
                 } else if (frame.final3) {
                     nome.setText("MINI CÃO");
                     vida.setText("25");
                     dano.setText("10");
                     descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
+
+                    cardPanel.add(gato9, "gato 8");
                     cardLayout.show(cardPanel, "gato 8");
                 }
             }
@@ -278,6 +283,8 @@ public class Escolha extends JPanel {
                     vida.setText("25");
                     dano.setText("10");
                     descricao.setText("Ei, isso não é um gato (x3 xp e moedas) (final 3)");
+
+                    cardPanel.add(gato9, "gato 8");
                     cardLayout.show(cardPanel, "gato 8");
                 }
             }

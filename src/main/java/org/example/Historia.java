@@ -59,9 +59,13 @@ public class Historia extends JPanel {
             case 1000 -> frame.cardLayout.show(frame.getContentPane(), "inicio");
             case 1001 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.peixeEstranho, 8, 8, "Você achou um peixe estranha"));
             case 1002 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.gatoCaca, 3, 3, "Há caçadores na floresta"));
+            case 1002_1 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.gatoCaca, 5, 5, "Ainda há caçadores na floresta"));
             case 1003 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.rei, 5, 4, ""));
+            case 1004 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.novoRei, 11, 10, ""));
+            case 1005 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.gatoRei, 12, 10, ""));
             default -> frame.toMain(cena);
         }
         button.setVisible(false);
+        t1.stop();
     }
 }

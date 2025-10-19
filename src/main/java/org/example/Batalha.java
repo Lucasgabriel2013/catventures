@@ -46,6 +46,9 @@ public class Batalha extends JPanel {
 
         button3.setEnabled(false);
         textArea.setText(frase);
+        if (frase.isEmpty()) {
+            textArea.setText("Seu turno");
+        }
 
         Utils.setIcon(button2, new ImageIcon(getClass().getResource("/correr.png")), 160, 160);
         Utils.setIcon(button3, new ImageIcon(getClass().getResource("/shield.png")), 144, 144);
@@ -139,6 +142,8 @@ public class Batalha extends JPanel {
                 Vida: %s
                 Dano: %s
                 """.formatted(gato.nome, vidaMinha, danoMeu));
+
+        button4.setEnabled(!button4.getText().endsWith("0"));
     }
 
     void atacar() {
@@ -258,8 +263,8 @@ public class Batalha extends JPanel {
     }
 
     void pocao() {
-        if (button4.getText().endsWith("(0)")) {
-
+        if (button4.getText().endsWith("0")) {
+            button4.setEnabled(false);
         } else {
             vidaMinha = frame.loja.usar();
             main.gato.vida = vidaMinha;
@@ -274,7 +279,7 @@ public class Batalha extends JPanel {
             button4.setEnabled(false);
         }
         if (vidaMinha <= 0) {
-            frame.toMain(0);
+            frame.toMain(1);
             return true;
         } else if (vidaDele <= 0) {
             frame.toMain(scene);

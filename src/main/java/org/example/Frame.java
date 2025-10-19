@@ -4,7 +4,8 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
-import java.io.IOException;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Frame extends JFrame {
     Batalha batalha = new Batalha(this);
@@ -25,6 +26,8 @@ public class Frame extends JFrame {
     boolean final2 = false;
     boolean final3 = false;
 
+    String cardAtual = "tela1";
+
     static void main() throws Exception {
         UIManager.setLookAndFeel(new NimbusLookAndFeel());
 
@@ -39,33 +42,21 @@ public class Frame extends JFrame {
 
         sair.setFont(new Font("Arial", Font.BOLD, 26));
 
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/sons/musicaFundo.wav"))) {
+        musicaFundo = Utils.musicaFundo("/sons/musicaFundo.wav");
+        musicaBatalha = Utils.musicaFundo("/sons/battleMusic.wav");
+        musicaBatalha.stop();
 
-            musicaFundo = AudioSystem.getClip();
-            musicaFundo.open(audioIn);
-            musicaFundo.loop(Clip.LOOP_CONTINUOUSLY);
-            musicaFundo.start();
+        setFocusable(true);
+        requestFocusInWindow();
 
-            FloatControl volume = (FloatControl) musicaFundo.getControl(FloatControl.Type.MASTER_GAIN);
-            volume.setValue(-6.0f);
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
-
-        try (AudioInputStream audioIn2 = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/sons/battleMusic.wav"))) {
-
-            musicaBatalha = AudioSystem.getClip();
-            musicaBatalha.open(audioIn2);
-            musicaBatalha.loop(Clip.LOOP_CONTINUOUSLY);
-            musicaBatalha.stop();
-
-            FloatControl volume = (FloatControl) musicaFundo.getControl(FloatControl.Type.MASTER_GAIN);
-            volume.setValue(-6.0f);
-
-        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            e.printStackTrace();
-        }
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (KeyEvent.VK_ESCAPE == e.getKeyCode() && cardAtual.equals("historia")) {
+                    historia.voltar();
+                }
+            }
+        });
 
         add(telaInicial, "inicio");
         add(loja, "loja");
@@ -80,26 +71,22 @@ public class Frame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
-        cardLayout.show(getContentPane(), "inicio");
+        show("inicial");
 
-        sair.addActionListener(_ -> sair());
-    }
-
-    void sair() {
-        dispose();
+        sair.addActionListener(_ -> dispose());
     }
 
     public void toBatalha(Batalha novaBatalha) {
         getContentPane().remove(batalha);
         batalha = novaBatalha;
         add(batalha, "batalha");
-        cardLayout.show(getContentPane(), "batalha");
+        show("batalha");
         musicaFundo.stop();
         musicaBatalha.start();
     }
 
     public void toMain(int scene) {
-        cardLayout.show(getContentPane(), "main");
+        show("main");
         main.setScene(scene);
         main.clean();
         musicaBatalha.stop();
@@ -107,8 +94,14 @@ public class Frame extends JFrame {
     }
 
     public void toMain(int vida, int dano, ImageIcon icon, String nome) {
-        main.setScene(1);
+        toHistoria();
+        historia.cutscene( 2, 2000,
+                new Cena("Você foi um gato maltratado em seu reino...", main.gatos),
+                new Cena("Então queria fugir de seu reino, mas não sabia como", main.gatos),
+                new Cena("Até que você achou uma janela, e a quebrou", main.casteloQuebrado),
+                new Cena("Você pulou a janela, e você saiu correndo pela floresta", main.floresta));
         main.gato = new Personagem(icon, dano, vida, 0, 0, "Gato");
+
         loja.newSave();
         main.moedas = 0;
 
@@ -119,7 +112,6 @@ public class Frame extends JFrame {
         main.gato.vidaMaxima = vida;
         main.gato.nome = nome;
         main.clean();
-        cardLayout.show(getContentPane(), "main");
         Utils.sound("/sons/gatoSound1.wav", 6);
     }
 
@@ -127,7 +119,7 @@ public class Frame extends JFrame {
         arena = new Arena(main, this, scene);
         getContentPane().remove(arena);
         add(arena, "mundo");
-        cardLayout.show(getContentPane(), "mundo");
+        show("mundo");
     }
 
     public void toLoja(int moedas, int scene) {
@@ -138,6 +130,11 @@ public class Frame extends JFrame {
     }
 
     public void toHistoria() {
-        cardLayout.show(getContentPane(), "historia");
+        show("historia");
+    }
+
+    public void show(String name) {
+        cardLayout.show(getContentPane(), name);
+        cardAtual = name;
     }
 }

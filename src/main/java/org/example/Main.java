@@ -60,13 +60,8 @@ public class Main extends JPanel {
     Personagem gatoCaca = new Personagem(new ImageIcon(getClass().getResource("/personagens/gato7.png")), 25,  30, 0.25, 3, "Caçador");
 
     Map<Integer, Mensagem> mensagemMap = Map.ofEntries(
-            Map.entry(0, new Mensagem(
-                    "Você morreu", "Jogar novamente", "", "", "",
-                    gatos)),
-
             Map.entry(1, new Mensagem(
-                    "Você foi um gato maltratado em seu reino, agora podes fugir, pois tem 4 anos",
-                    "Fugir", "", "", "",
+                    "Você morreu", "Jogar novamente", "", "", "",
                     gatos)),
 
             Map.entry(2, new Mensagem(
@@ -269,15 +264,6 @@ public class Main extends JPanel {
                 }
             }
 
-            case 1 -> {
-                frame.toHistoria();
-                frame.historia.cutscene( 2, 2000,
-                        new Cena("Você queria fugir de seu reino, mas não sabia como", gatos),
-                        new Cena("Até que achastes uma janela, e a quebrou", casteloQuebrado),
-                        new Cena("Pulastes a janela, e saístes correndo pela floresta", floresta));
-                cenaAtual = 2;
-            }
-
             case 2 -> {
                 if (i == 1) {
                     cenaAtual = 3;
@@ -285,7 +271,7 @@ public class Main extends JPanel {
                     frame.toHistoria();
                     frame.historia.cutscene( 1002, 750,
                             new Cena("Você continuo na floresta, mas tinha vários caçadores", floresta),
-                            new Cena("Então, tu foste pego", gatoCaca.icon));
+                            new Cena("Então, você foi pego", gatoCaca.icon));
                 }
             }
 
@@ -304,7 +290,7 @@ public class Main extends JPanel {
                     frame.toHistoria();
                     frame.historia.cutscene( 1003, 2000,
                             new Cena("Você desafiou o rei, e ele riu de você", gato.icon),
-                            new Cena("Então, vocês se batalharão", rei.icon));
+                            new Cena("Então, vocês iram batalhar", rei.icon));
                 } else if (i == 2) {
                     cenaAtual = 2;
                 }
@@ -314,7 +300,9 @@ public class Main extends JPanel {
                 if (i == 1) {
                     cenaAtual = 6;
                 } else if (i == 2) {
-                    frame.toBatalha(new Batalha(frame, this, gato, gatoCaca, 6, 5, "Ainda há caçadores"));
+                    frame.historia.cutscene( 1002_1, 750,
+                            new Cena("Você continuo na floresta, mas ainda havia caçadores", floresta),
+                            new Cena("Então, você foi pego", gatoCaca.icon));
                 }
             }
 
@@ -368,9 +356,16 @@ public class Main extends JPanel {
 
             case 10 ->{
                 if (i == 1) {
-                    frame.toBatalha(new Batalha(frame, this, gato, novoRei, 11, 10, ""));
+                    frame.toHistoria();
+                    frame.historia.cutscene( 1004, 2000,
+                            new Cena("Você quer salvar seu antigo reino...", gatos),
+                            new Cena("Então desfia o novo rei cachorro, ele é muito forte", gato.icon),
+                            new Cena("E que comece a batalha", novoRei.icon));
                 } else if (i == 2) {
-                    frame.toBatalha(new Batalha(frame, this, gato, gatoRei, 12, 10, ""));
+                    frame.toHistoria();
+                    frame.historia.cutscene( 1005, 2000,
+                            new Cena("Você se lembra do passado", gatos),
+                            new Cena("E opta por ajudar os cachorros", gato.icon));
                 }
             }
         }

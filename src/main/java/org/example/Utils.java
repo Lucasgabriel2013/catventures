@@ -3,6 +3,7 @@ package org.example;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 
 public class Utils {
@@ -16,11 +17,13 @@ public class Utils {
         button.setIcon(icon);
     }
 
-    public static void sound(String recource, float addVolume) {
-        try (AudioInputStream audioIn = AudioSystem.getAudioInputStream(Utils.class.getResourceAsStream(recource))) {
+    public static void sound(String resource, float addVolume) {
+        try {
+            BufferedInputStream bis = new BufferedInputStream(Utils.class.getResourceAsStream(resource));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bis);
 
             Clip clip = AudioSystem.getClip();
-            clip.open(audioIn);
+            clip.open(audioStream);
 
             FloatControl volume2 = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             volume2.setValue(+addVolume);
@@ -36,5 +39,24 @@ public class Utils {
         button.setVerticalTextPosition(SwingConstants.BOTTOM);
         button.setHorizontalTextPosition(SwingConstants.CENTER);
         return button;
+    }
+
+    public static Clip musicaFundo(String resource) {
+        try {
+
+            BufferedInputStream bis = new BufferedInputStream(Utils.class.getResourceAsStream(resource));
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(bis);
+
+            var clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+
+            FloatControl volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+            volume.setValue(-6.0f);
+
+            return clip;
+        } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
