@@ -63,6 +63,9 @@ public class Historia extends JPanel {
             case 1003 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.rei, 5, 4, ""));
             case 1004 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.novoRei, 11, 10, ""));
             case 1005 -> frame.toBatalha(new Batalha(frame, frame.main, frame.main.gato, frame.main.gatoRei, 12, 10, ""));
+
+            case 2000 -> frame.toMundoAberto(1);
+
             default -> frame.toMain(cena);
         }
         button.setVisible(false);

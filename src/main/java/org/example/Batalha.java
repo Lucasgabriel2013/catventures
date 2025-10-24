@@ -226,7 +226,7 @@ public class Batalha extends JPanel {
     void fugir() {
         button.setEnabled(false);
         button2.setEnabled(false);
-        textArea.setText("Não consiguistes fugir");
+        textArea.setText("Você não conseguiu fugir");
         int random = (int) (Math.random() * 10);
         if (random > 5) {
             frame.toMain(fugir);

@@ -15,6 +15,7 @@ public class Frame extends JFrame {
     Arena arena = new Arena(main, this, 0);
     TelaInicial telaInicial = new TelaInicial(this, main);
     Historia historia = new Historia(this);
+    MundoAberto mundoAberto = new MundoAberto(this);
 
     JButton sair = new JButton("Sair");
 
@@ -54,6 +55,38 @@ public class Frame extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (KeyEvent.VK_ESCAPE == e.getKeyCode() && cardAtual.equals("historia")) {
                     historia.voltar();
+
+                } else if (cardAtual.equals("movimento")) {
+                    int nextRow = mundoAberto.row;
+                    int nextCol = mundoAberto.col;
+                    int nextX = mundoAberto.x;
+                    int nextY = mundoAberto.y;
+
+                    if (e.getKeyCode() == KeyEvent.VK_S && mundoAberto.row != 2) {
+                        nextRow--;
+                        nextY += 60;
+
+                    } else if (e.getKeyCode() == KeyEvent.VK_W && mundoAberto.row != 17) {
+                        nextRow++;
+                        nextY -= 60;
+
+                    } else if (e.getKeyCode() == KeyEvent.VK_A && mundoAberto.col != 2) {
+                        nextCol--;
+                        nextX -= 60;
+
+                    } else if (e.getKeyCode() == KeyEvent.VK_D && mundoAberto.col != 31) {
+                        nextCol++;
+                        nextX += 60;
+                    }
+
+                    if (mundoAberto.posicoes[nextCol][nextRow] != 1) {
+                        mundoAberto.col = nextCol;
+                        mundoAberto.row = nextRow;
+                        mundoAberto.x = nextX;
+                        mundoAberto.y = nextY;
+                    }
+
+                    mundoAberto.repaint();
                 }
             }
         });
@@ -65,13 +98,18 @@ public class Frame extends JFrame {
         add(main, "main");
         add(batalha, "batalha");
         add(historia, "historia");
+        add(mundoAberto, "movimento");
 
         setUndecorated(true);
-        GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().setFullScreenWindow(this);
+        GraphicsEnvironment.getLocalGraphicsEnvironment().
+                getDefaultScreenDevice().
+                setFullScreenWindow(this);
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         setVisible(true);
 
-        show("inicial");
+        show("inicio");
 
         sair.addActionListener(_ -> dispose());
     }
@@ -95,7 +133,7 @@ public class Frame extends JFrame {
 
     public void toMain(int vida, int dano, ImageIcon icon, String nome) {
         toHistoria();
-        historia.cutscene( 2, 2000,
+        historia.cutscene(2000, 2000,
                 new Cena("Você foi um gato maltratado em seu reino...", main.gatos),
                 new Cena("Então queria fugir de seu reino, mas não sabia como", main.gatos),
                 new Cena("Até que você achou uma janela, e a quebrou", main.casteloQuebrado),
@@ -131,6 +169,11 @@ public class Frame extends JFrame {
 
     public void toHistoria() {
         show("historia");
+    }
+
+    public void toMundoAberto(int cena) {
+        show("movimento");
+        mundoAberto.cena = cena;
     }
 
     public void show(String name) {

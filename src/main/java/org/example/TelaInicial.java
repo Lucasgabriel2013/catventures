@@ -7,7 +7,6 @@ public class TelaInicial extends JPanel {
     Frame frame;
     Main main;
 
-    JButton foto = new JButton();
     JButton jogar = new JButton("Jogar");
     JButton creditos = new JButton("Créditos");
     JButton sair = new JButton("Sair");
@@ -17,7 +16,7 @@ public class TelaInicial extends JPanel {
         this.frame = frame;
         this.main = main;
 
-        setLayout(new BorderLayout());
+        setLayout(null);
 
         jogar.setFont(new Font("Arial", Font.BOLD, 40));
         creditos.setFont(new Font("Arial", Font.BOLD, 40));
@@ -28,17 +27,18 @@ public class TelaInicial extends JPanel {
         creditos.setBackground(new Color(205, 175, 42));
         panel.setBackground(new Color(205, 175, 42));
 
-        sair.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-        jogar.setBorder(BorderFactory.createLineBorder(Color.black, 3));
-        creditos.setBorder(BorderFactory.createLineBorder(Color.black, 3));
+        sair.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        jogar.setBorder(BorderFactory.createLineBorder(Color.black, 1));
+        creditos.setBorder(BorderFactory.createLineBorder(Color.black, 1));
 
-        add(foto, BorderLayout.CENTER);
         add(panel, BorderLayout.SOUTH);
-        panel.setLayout(new GridLayout(1, 3));
-        panel.add(jogar);
-        panel.add(creditos);
-        panel.add(sair);
-        Utils.setIcon(foto, new ImageIcon(getClass().getResource("/fundos/telaInicial.png")), 2000, 1200);
+        add(jogar);
+        add(creditos);
+        add(sair);
+
+        jogar.setBounds(735, 490, 400, 150);
+        creditos.setBounds(735, 690, 400, 150);
+        sair.setBounds(735, 890, 400, 150);
 
         jogar.addActionListener(_ -> frame.cardLayout.show(frame.getContentPane(), "escolha"));
         creditos.addActionListener(_ -> creditos());
@@ -47,10 +47,17 @@ public class TelaInicial extends JPanel {
 
     void creditos() {
         frame.toHistoria();
-        frame.historia.cutscene( 1000, 1000,
+        frame.historia.cutscene(1000, 1000,
                 new Cena("CRÉDITOS:", frame.main.gatos),
                 new Cena("CatVentures", frame.main.floresta),
                 new Cena("Desenvolvido por:", frame.main.lago),
                 new Cena("Lucas Gabriel Reiter", frame.main.cachorros));
+    }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        g.drawImage(new ImageIcon(getClass().getResource("/fundos/telaInicial.png")).getImage(), 0, 0, null);
     }
 }
