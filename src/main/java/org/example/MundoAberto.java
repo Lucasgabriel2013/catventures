@@ -8,19 +8,15 @@ public class MundoAberto extends JPanel {
     Frame frame;
 
     int x = 915;
-    int y = 520;
+    int y = 460;
     int col = 17;
     int row = 10;
     int cena = 0;
 
     int[][] posicoes = new int[32][18];
 
-    JPanel panel = new JPanel();
-
     MundoAberto(Frame frame) {
         this.frame = frame;
-
-        add(panel);
     }
 
     @Override
@@ -70,17 +66,21 @@ public class MundoAberto extends JPanel {
             if (col < 5) {
                frame.main.cenaAtual = 4;
                frame.toMain(frame.main.cenaAtual);
+               arrumar();
+               
             } else if (col > 30) {
                 frame.toHistoria();
                 frame.historia.cutscene(1003, 750,
                         new Cena("Você desafiou o rei e ele riu de você", frame.main.rei.icon),
-                        new Cena("Então, vocês irão batalhar", frame.main.gatoCaca.icon));
+                        new Cena("Então, vocês irão batalhar", frame.main.gato.icon));
+                arrumar();
             }
         }
     }
+
     public void arrumar() {
         x = 915;
-        y = 520;
+        y = 460;
         col = 17;
         row = 9;
     }

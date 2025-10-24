@@ -15,7 +15,6 @@ public class TelaInicial extends JPanel {
     TelaInicial(Frame frame, Main main) {
         this.frame = frame;
         this.main = main;
-
         setLayout(null);
 
         jogar.setFont(new Font("Arial", Font.BOLD, 40));
@@ -48,10 +47,10 @@ public class TelaInicial extends JPanel {
     void creditos() {
         frame.toHistoria();
         frame.historia.cutscene(1000, 1000,
-                new Cena("CRÉDITOS:", frame.main.gatos),
-                new Cena("CatVentures", frame.main.floresta),
-                new Cena("Desenvolvido por:", frame.main.lago),
-                new Cena("Lucas Gabriel Reiter", frame.main.cachorros));
+                new Cena("CRÉDITOS:", frame.main.peixe.icon),
+                new Cena("CatVentures®", frame.main.cachorro.icon),
+                new Cena("Desenvolvido por:", frame.main.gato.icon),
+                new Cena("Lucas Gabriel Reiter", frame.main.gatoRei.icon));
     }
 
     @Override

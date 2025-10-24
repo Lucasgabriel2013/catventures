@@ -134,10 +134,10 @@ public class Frame extends JFrame {
     public void toMain(int vida, int dano, ImageIcon icon, String nome) {
         toHistoria();
         historia.cutscene(2000, 2000,
-                new Cena("Você foi um gato maltratado em seu reino...", main.gatos),
-                new Cena("Então queria fugir de seu reino, mas não sabia como", main.gatos),
-                new Cena("Até que você achou uma janela, e a quebrou", main.casteloQuebrado),
-                new Cena("Você pulou a janela, e você saiu correndo pela floresta", main.floresta));
+                new Cena("Você foi um gato maltratado em seu reino... E queria fugir", main.gatos),
+                new Cena("Você achou uma janela e a quebrou, atraindo caçadores", main.casteloQuebrado),
+                new Cena("Você pulou a janela, e você saiu correndo pela floresta", main.floresta),
+                new Cena("Agora escolha, ir ao reino dos cães ou continuar na floresta", main.floresta));
         main.gato = new Personagem(icon, dano, vida, 0, 0, "Gato");
 
         loja.newSave();
@@ -174,6 +174,7 @@ public class Frame extends JFrame {
     public void toMundoAberto(int cena) {
         show("movimento");
         mundoAberto.cena = cena;
+        mundoAberto.repaint();
     }
 
     public void show(String name) {
